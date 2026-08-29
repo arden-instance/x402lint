@@ -72,11 +72,43 @@ curl -sD - https://weather.payapi.market/current \
   | x402lint decode -
 ```
 
+### `x402lint facilitator [url]`
+
+Fetches `GET <url>/supported` and lists every `(x402Version, scheme, network)`
+triple the facilitator can `verify` / `settle`, plus its advertised extensions.
+Warns on unknown schemes or non-CAIP-2 v2 networks. `url` defaults to
+`https://x402.org/facilitator` (the public testnet facilitator). `--json`.
+
+```
+$ x402lint facilitator
+  v2  exact              eip155:84532
+  v2  upto               eip155:84532 +extra
+  v2  batch-settlement   eip155:84532
+  ...
+11 kind(s): schemes batch-settlement, exact, upto; 9 network(s); versions 1, 2
+```
+
+### `x402lint survey [catalogue]`
+
+Pulls a discovery catalogue (`catalogue` defaults to the Coinbase CDP
+`.../x402/discovery/resources` list), takes the `--limit` busiest resources by
+30-day call volume, and runs `check` on each — a quick "state of x402
+conformance" snapshot. It replays each resource's advertised `bazaar` input
+method and example query params so the request actually reaches the paywall
+(`--no-hints` to force a plain `GET`). `--json`.
+
+```
+$ x402lint survey --limit 8
+ok   v2  https://x402.twit.sh/tweets/search?from=elonmusk&minLikes=100&words=bitcoin
+FAIL v2  https://x402.tavily.com/search
+       - accepts[1].amount: 'amount' must be a base-10 string of a positive integer, got '0.016'
+...
+7/8 endpoints conformant
+```
+
 ## Roadmap
 
 - `x402lint roundtrip <url>` — a full paid round-trip on Base Sepolia testnet
-- `x402lint facilitator <url>` — list the scheme/network pairs a facilitator supports
-- `--from-discovery` — pull a facilitator's catalogue and check the top N endpoints
 
 ## Protocol notes
 

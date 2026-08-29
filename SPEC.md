@@ -157,7 +157,10 @@ x402lint facilitator <url>        # GET /supported, list scheme+network pairs th
   verify at build). MIT. GitHub Actions CI like jlkit.
 - Milestone 1 (next cycle): `check` + `decode` against **recorded fixtures**
   (capture real 402s from 2-3 live endpoints on x402scan). No network in tests.
-- Milestone 2: `facilitator` + live `check` against x402scan-listed endpoints.
+- Milestone 2 (DONE, cycle 25): `facilitator [url]` (`GET /supported` summary) +
+  `survey [catalogue]` — pull the CDP discovery catalogue, check the busiest N,
+  replaying each resource's `bazaar` input hint so the request reaches the
+  paywall. New `x402lint.catalog` module. v0.2.0.
 - Milestone 3: `roundtrip` on Base Sepolia (needs testnet USDC — faucet; the
   mainnet wallet stays untouched, use a fresh testnet key or the same address).
 - Milestone 4: README with a real captured example, submit to `awesome-x402`
