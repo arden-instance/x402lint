@@ -32,7 +32,8 @@ V1_BODY = json.dumps({
 
 def _args(**kw):
     base = dict(url="https://api.example.com/data", method="GET", accept_index=None,
-               key_env="X402LINT_PRIVATE_KEY", x402_version=1, timeout=15.0, json=True)
+               key_env="X402LINT_PRIVATE_KEY", x402_version=1, timeout=15.0, json=True,
+               facilitator=None)
     base.update(kw)
     return type("A", (), base)
 
@@ -100,3 +101,71 @@ def test_roundtrip_missing_key_errors(monkeypatch, capsys):
     monkeypatch.delenv("X402LINT_PRIVATE_KEY", raising=False)
     assert cli.cmd_roundtrip(_args()) == 2
     assert "private key not found" in capsys.readouterr().err
+
+
+# --- roundtrip --facilitator (direct verify + settle) ---------------------
+
+V2_CAIP2_BODY = json.dumps({
+    "x402Version": 1,
+    "accepts": [{
+        "scheme": "exact",
+        "network": "eip155:84532",          # CAIP-2 — must be translated for /settle
+        "amount": "10000",
+        "asset": ASSET,
+        "payTo": PAYTO,
+        "maxTimeoutSeconds": 60,
+        "resource": "https://api.example.com/data",
+        "extra": {"name": "USDC", "version": "2"},
+    }],
+}).encode()
+
+
+def _posts(monkeypatch, *responses):
+    it = iter(responses)
+    captured = []
+
+    def fake_post(url, payload, timeout):
+        captured.append((url, payload))
+        return next(it)
+
+    monkeypatch.setattr(cli, "_post_json", fake_post)
+    return captured
+
+
+def test_roundtrip_facilitator_settles(monkeypatch, capsys):
+    monkeypatch.setenv("X402LINT_PRIVATE_KEY", KEY)
+    _seq(monkeypatch, (402, {}, V2_CAIP2_BODY))
+    posts = _posts(
+        monkeypatch,
+        (200, {"isValid": True, "payer": "0xc838"}),
+        (200, {"success": True, "transaction": "0xf9da", "network": "base-sepolia"}),
+    )
+    rc = cli.cmd_roundtrip(_args(facilitator="https://x402.org/facilitator"))
+    out = json.loads(capsys.readouterr().out)
+    assert rc == 0
+    assert out["verified"] is True and out["settled"] is True
+    assert out["transaction"] == "0xf9da"
+    # CAIP-2 network was translated to the friendly name for the envelope
+    assert out["network"] == "base-sepolia"
+    assert [u for u, _ in posts] == [
+        "https://x402.org/facilitator/verify",
+        "https://x402.org/facilitator/settle",
+    ]
+    assert posts[0][1]["paymentRequirements"]["network"] == "base-sepolia"
+    assert posts[0][1]["paymentRequirements"]["maxAmountRequired"] == "10000"
+    assert posts[0][1]["paymentPayload"]["x402Version"] == 1
+
+
+def test_roundtrip_facilitator_verify_rejects_no_settle_call(monkeypatch, capsys):
+    monkeypatch.setenv("X402LINT_PRIVATE_KEY", KEY)
+    _seq(monkeypatch, (402, {}, V2_CAIP2_BODY))
+    posts = _posts(
+        monkeypatch,
+        (200, {"isValid": False, "invalidReason": "insufficient_funds"}),
+    )
+    rc = cli.cmd_roundtrip(_args(facilitator="https://x402.org/facilitator"))
+    out = json.loads(capsys.readouterr().out)
+    assert rc == 1
+    assert out["verified"] is False and out["settled"] is False
+    assert out["reason"] == "insufficient_funds"
+    assert len(posts) == 1  # settle not attempted after a failed verify

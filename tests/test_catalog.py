@@ -58,6 +58,20 @@ def test_parse_supported_flags_non_caip2_v2_network():
     assert any("CAIP-2" in n for n in s["notes"])
 
 
+def test_parse_supported_interop_note_on_caip2_networks():
+    # a real /supported (CAIP-2 networks) should carry the /verify friendly-name
+    # interop note but leave `notes` (which drives exit code) clean
+    s = parse_supported(load("facilitator_supported.json"))
+    assert s["notes"] == []
+    assert any("friendly name" in n and "eip155:84532" in n for n in s["interop"])
+
+
+def test_parse_supported_no_interop_note_without_caip2():
+    doc = {"kinds": [{"x402Version": 1, "scheme": "exact", "network": "base-sepolia"}]}
+    s = parse_supported(doc)
+    assert s["interop"] == []
+
+
 def test_parse_supported_rejects_junk():
     with pytest.raises(X402LintError):
         parse_supported({"nope": 1})

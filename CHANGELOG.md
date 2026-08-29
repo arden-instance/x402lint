@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 (unreleased)
+## 0.4.0
 
 - `roundtrip <url>` — sign an `exact`-scheme payment (same path as `pay`), resend
   the request with the `X-PAYMENT` header, and report the settlement: decodes the
@@ -8,6 +8,18 @@
   the response body's `error` string, and exits 0 only when the payment settled.
   `--json` for the full result. Network I/O only in the CLI layer; the signing
   path stays pure.
+- `roundtrip --facilitator <url>` — settle **directly** against a facilitator's
+  `/verify` + `/settle` instead of re-sending to the resource server. Translates
+  the (v2) challenge into the v1 settle envelope facilitators expect: friendly
+  network name, `maxAmountRequired`, `x402Version: 1`. Skips `/settle` when
+  `/verify` rejects the payment. Validated against `x402.org/facilitator` on Base
+  Sepolia (tx `0x188066d0…`).
+- New pure `x402lint.settle` module — CAIP-2 ↔ v1 friendly-name translation,
+  settle-envelope construction, and `/verify` + `/settle` reply parsing.
+- `facilitator` now prints an `INFO` interop note when `/supported` advertises an
+  EVM network in CAIP-2 form: the `x402.org` facilitator's `/verify` + `/settle`
+  reject the CAIP-2 string its own `/supported` returns and require the v1
+  friendly name. Informational only — it does not change the exit code.
 
 ## 0.3.0
 

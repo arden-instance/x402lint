@@ -96,6 +96,29 @@ def cmd_decode(args: argparse.Namespace) -> int:
     return 0
 
 
+def _post_json(url: str, payload: dict, timeout: float) -> tuple[int, object]:
+    """POST a JSON body, return (status, parsed-json-or-raw-text). Used for the
+    facilitator /verify + /settle calls."""
+    raw = json.dumps(payload).encode()
+    hdrs = {
+        "User-Agent": f"x402lint/{__version__}",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+    }
+    req = urllib.request.Request(url, data=raw, method="POST", headers=hdrs)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            status, body = resp.status, resp.read()
+    except urllib.error.HTTPError as e:
+        status, body = e.code, e.read()
+    except urllib.error.URLError as e:
+        raise X402LintError(f"could not reach {url}: {e.reason}")
+    try:
+        return status, json.loads(body)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return status, body.decode("utf-8", "replace")
+
+
 def _get_json(url: str, timeout: float) -> object:
     try:
         status, _headers, body = _fetch(url, "GET", timeout)
@@ -133,6 +156,8 @@ def cmd_facilitator(args: argparse.Namespace) -> int:
         print(f"extensions: {', '.join(summary['extensions'])}")
     for note in summary["notes"]:
         print(f"WARN  {note}")
+    for note in summary.get("interop", []):
+        print(f"INFO  {note}")
     return 1 if summary["notes"] else 0
 
 
@@ -255,6 +280,9 @@ def cmd_roundtrip(args: argparse.Namespace) -> int:
         print(f"error: {e}", file=sys.stderr)
         return 2
 
+    if args.facilitator:
+        return _roundtrip_via_facilitator(args, entry, prepared)
+
     try:
         status2, headers2, body2 = _fetch(
             args.url, args.method, args.timeout,
@@ -308,6 +336,73 @@ def cmd_roundtrip(args: argparse.Namespace) -> int:
     else:
         print(f"\nNOT SETTLED{'  (' + reason + ')' if reason else ''}")
     return 0 if settled else 1
+
+
+def _roundtrip_via_facilitator(args: argparse.Namespace, entry, prepared) -> int:
+    """Direct client -> facilitator /verify + /settle, translating the (v2)
+    challenge into the v1 settle envelope the facilitator expects.
+
+    `roundtrip <url>` alone re-sends to the *resource server*, which builds its
+    own CAIP-2 paymentRequirements when it calls the facilitator and self-fails
+    on facilitators (x402.org) that only accept friendly names there. This path
+    does the translation itself. Validated cycle 33 on Base Sepolia.
+    """
+    from . import settle as settlemod
+
+    base = args.facilitator.rstrip("/")
+    verify_url = base + "/verify"
+    settle_url = base + "/settle"
+    try:
+        envelope = settlemod.build_envelope(prepared, entry, resource_url=args.url)
+        vstatus, vdoc = _post_json(verify_url, envelope, args.timeout)
+        verify = settlemod.read_verify(vdoc)
+    except X402LintError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+
+    result = {
+        "url": args.url,
+        "facilitator": base,
+        "payer": prepared["payer"],
+        "pay_to": prepared["authorization"]["to"],
+        "value": prepared["authorization"]["value"],
+        "network": envelope["paymentRequirements"]["network"],
+        "verify_status": vstatus,
+        "verified": verify["valid"],
+        "settled": False,
+        "transaction": None,
+        "reason": verify["reason"],
+    }
+
+    if verify["valid"]:
+        try:
+            sstatus, sdoc = _post_json(settle_url, envelope, args.timeout)
+            sett = settlemod.read_settle(sdoc)
+        except X402LintError as e:
+            print(f"error: {e}", file=sys.stderr)
+            return 2
+        result["settle_status"] = sstatus
+        result["settled"] = sett["settled"]
+        result["transaction"] = sett["transaction"]
+        result["reason"] = sett["reason"] if not sett["settled"] else None
+
+    if args.json:
+        json.dump(result, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 0 if result["settled"] else 1
+
+    print(f"# payer        {result['payer']}")
+    print(f"# payTo        {result['pay_to']}")
+    print(f"# value        {result['value']} atomic units  ({result['network']})")
+    print(f"# facilitator  {base}")
+    print(f"# verify       HTTP {vstatus}  -> {'valid' if verify['valid'] else 'INVALID'}")
+    if result["settled"]:
+        tx = result["transaction"]
+        print(f"\nSETTLED{'  tx ' + tx if tx else ''}")
+    else:
+        why = result["reason"] or ("verify rejected the payment" if not verify["valid"] else "")
+        print(f"\nNOT SETTLED{'  (' + why + ')' if why else ''}")
+    return 0 if result["settled"] else 1
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -368,6 +463,10 @@ def build_parser() -> argparse.ArgumentParser:
                    help="env var holding the 0x private key (default: X402LINT_PRIVATE_KEY)")
     r.add_argument("--x402-version", type=int, default=1, choices=(1, 2),
                    help="x402Version to stamp on the PaymentPayload (default: 1)")
+    r.add_argument("--facilitator", metavar="URL", default=None,
+                   help="settle directly via this facilitator's /verify + /settle "
+                        "(translates the v2 challenge to the v1 settle envelope) "
+                        "instead of re-sending to the resource server")
     r.add_argument("--timeout", type=float, default=15.0)
     r.add_argument("--json", action="store_true", help="machine-readable output")
     r.set_defaults(func=cmd_roundtrip)

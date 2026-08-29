@@ -157,6 +157,26 @@ SETTLED  tx 0xabc123...
 Needs the `pay` extra and a funded key for a real settlement; without funds it
 reports `NOT SETTLED (insufficient_funds)` after exercising the full path.
 
+#### `--facilitator <url>`
+
+Settle **directly** against a facilitator's `/verify` + `/settle` rather than
+re-sending to the resource server. Useful when the resource server builds its own
+(CAIP-2) `paymentRequirements` and self-fails against a facilitator that only
+accepts v1 friendly names there. x402lint translates the challenge into the v1
+settle envelope (`base-sepolia`, `maxAmountRequired`, `x402Version: 1`) and stops
+before `/settle` if `/verify` rejects the payment.
+
+```
+$ x402lint roundtrip --facilitator https://x402.org/facilitator https://x402.org/protected
+# payer        0xc838ED72fd5905C30801515DdC7B5cc13F36E88D
+# payTo        0x209693Bc6afc0C5328bA36FaF03C514EF312287C
+# value        10000 atomic units  (base-sepolia)
+# facilitator  https://x402.org/facilitator
+# verify       HTTP 200  -> valid
+
+SETTLED  tx 0x188066d0...
+```
+
 ## Protocol notes
 
 Two wire formats exist. **v2** (`x402Version: 2`, Linux Foundation spec) is

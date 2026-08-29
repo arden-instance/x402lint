@@ -23,6 +23,13 @@ DEFAULT_FACILITATOR = "https://x402.org/facilitator"
 # Coinbase CDP discovery catalogue (public; no key needed for read).
 DEFAULT_CATALOGUE = "https://api.cdp.coinbase.com/platform/v2/x402/discovery/resources"
 
+# EVM CAIP-2 ids that have a v1 friendly-name equivalent — the ones the x402.org
+# /verify+/settle interop gap (cycle 33) applies to. Mirrors settle.CAIP2_TO_FRIENDLY.
+_CAIP2_WITH_FRIENDLY_NAME = {
+    "eip155:8453", "eip155:84532", "eip155:43114", "eip155:43113",
+    "eip155:137", "eip155:80002",
+}
+
 
 def supported_url(base: str) -> str:
     """Normalise a facilitator base URL to its ``/supported`` endpoint."""
@@ -43,6 +50,8 @@ def parse_supported(doc: Any) -> dict[str, Any]:
 
     rows: list[dict[str, Any]] = []
     notes: list[str] = []
+    interop: list[str] = []
+    caip2_nets: set[str] = set()
     for k in kinds:
         if not isinstance(k, dict):
             notes.append("skipped a non-object entry in 'kinds'")
@@ -60,6 +69,18 @@ def parse_supported(doc: Any) -> dict[str, Any]:
             notes.append(f"unrecognised scheme {scheme!r} for {network}")
         if version == 2 and not (isinstance(network, str) and _CAIP2.match(network)):
             notes.append(f"v2 kind has non-CAIP-2 network {network!r}")
+        if (isinstance(network, str) and _CAIP2.match(network)
+                and network in _CAIP2_WITH_FRIENDLY_NAME):
+            caip2_nets.add(network)
+
+    if caip2_nets:
+        interop.append(
+            "/supported advertises EVM network(s) in CAIP-2 form "
+            f"({', '.join(sorted(caip2_nets))}); the x402.org facilitator's "
+            "/verify + /settle reject these and require the v1 friendly name "
+            "(e.g. 'base-sepolia'). Observed 2026-08-29 with a real settlement. "
+            "`x402lint roundtrip --facilitator <url>` translates it for you."
+        )
 
     return {
         "kinds": rows,
@@ -70,6 +91,7 @@ def parse_supported(doc: Any) -> dict[str, Any]:
         "extensions": doc.get("extensions") or [],
         "signers": doc.get("signers") or {},
         "notes": notes,
+        "interop": interop,
     }
 
 
