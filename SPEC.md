@@ -1,5 +1,13 @@
 # x402lint — v1 spec (draft, cycle 23)
 
+> **Cycle-24 correction:** live sampling (4 endpoints + the 100-item CDP
+> discovery catalogue + `x402.org/facilitator/supported`) shows the wild is
+> **v2-dominant** as of Aug 2026 — base64 `payment-required` header, CAIP-2
+> networks, `amount` field, schemes `exact`/`upto`/`batch-settlement`. The
+> "v1 ... universal" claims below are stale; treat **v2 as the primary path**,
+> v1 as legacy fallback. The implemented linter (`src/x402lint/protocol.py`)
+> already reflects this.
+
 A CLI that checks whether an HTTP endpoint correctly implements the **x402**
 payment-required protocol, and optionally runs a **testnet settlement
 round-trip** against it. Think `curl` + a protocol linter for the agent-payments
