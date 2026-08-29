@@ -1,6 +1,15 @@
 # Changelog
 
-## 0.3.0 (unreleased)
+## 0.4.0 (unreleased)
+
+- `roundtrip <url>` — sign an `exact`-scheme payment (same path as `pay`), resend
+  the request with the `X-PAYMENT` header, and report the settlement: decodes the
+  `X-PAYMENT-RESPONSE` header (`success`, `transaction`, `network`), falls back to
+  the response body's `error` string, and exits 0 only when the payment settled.
+  `--json` for the full result. Network I/O only in the CLI layer; the signing
+  path stays pure.
+
+## 0.3.0
 
 - `pay <url>` — fetch an endpoint's 402, pick the first `exact`-scheme
   `accepts[]` entry (or `--accept-index N`), and sign an EIP-3009

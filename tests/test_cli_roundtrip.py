@@ -1,0 +1,102 @@
+"""cmd_roundtrip: sign a payment, resend the request, report settlement. No network."""
+
+from __future__ import annotations
+
+import base64
+import json
+
+import pytest
+
+pytest.importorskip("eth_account")
+
+from x402lint import cli
+
+PAYTO = "0x209693Bc6afc0C5328bA36FaF03C514EF312287C"
+ASSET = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+KEY = "0x" + "42" * 32
+
+V1_BODY = json.dumps({
+    "x402Version": 1,
+    "accepts": [{
+        "scheme": "exact",
+        "network": "base-sepolia",
+        "maxAmountRequired": "1000",
+        "asset": ASSET,
+        "payTo": PAYTO,
+        "maxTimeoutSeconds": 60,
+        "resource": "https://api.example.com/data",
+        "extra": {"name": "USDC", "version": "2"},
+    }],
+}).encode()
+
+
+def _args(**kw):
+    base = dict(url="https://api.example.com/data", method="GET", accept_index=None,
+               key_env="X402LINT_PRIVATE_KEY", x402_version=1, timeout=15.0, json=True)
+    base.update(kw)
+    return type("A", (), base)
+
+
+def _seq(monkeypatch, *responses):
+    it = iter(responses)
+    monkeypatch.setattr(cli, "_fetch", lambda *a, **k: next(it))
+
+
+def test_roundtrip_settled(monkeypatch, capsys):
+    monkeypatch.setenv("X402LINT_PRIVATE_KEY", KEY)
+    resp = base64.b64encode(json.dumps({
+        "success": True,
+        "transaction": "0xabc123",
+        "network": "base-sepolia",
+        "payer": "0xdead",
+    }).encode()).decode()
+    _seq(monkeypatch,
+         (402, {}, V1_BODY),
+         (200, {"X-PAYMENT-RESPONSE": resp}, b'{"ok": true}'))
+    rc = cli.cmd_roundtrip(_args())
+    out = json.loads(capsys.readouterr().out)
+    assert rc == 0
+    assert out["settled"] is True
+    assert out["transaction"] == "0xabc123"
+    assert out["retry_status"] == 200
+
+
+def test_roundtrip_insufficient_funds(monkeypatch, capsys):
+    monkeypatch.setenv("X402LINT_PRIVATE_KEY", KEY)
+    _seq(monkeypatch,
+         (402, {}, V1_BODY),
+         (402, {}, b'{"error": "insufficient_funds"}'))
+    rc = cli.cmd_roundtrip(_args())
+    out = json.loads(capsys.readouterr().out)
+    assert rc == 1
+    assert out["settled"] is False
+    assert out["reason"] == "insufficient_funds"
+
+
+def test_roundtrip_success_false_in_header(monkeypatch, capsys):
+    monkeypatch.setenv("X402LINT_PRIVATE_KEY", KEY)
+    resp = base64.b64encode(json.dumps({
+        "success": False,
+        "errorReason": "invalid_signature",
+    }).encode()).decode()
+    _seq(monkeypatch,
+         (402, {}, V1_BODY),
+         (200, {"X-PAYMENT-RESPONSE": resp}, b"{}"))
+    rc = cli.cmd_roundtrip(_args())
+    out = json.loads(capsys.readouterr().out)
+    assert rc == 1
+    assert out["settled"] is False
+    assert out["reason"] == "invalid_signature"
+
+
+def test_roundtrip_non_402_errors(monkeypatch, capsys):
+    monkeypatch.setenv("X402LINT_PRIVATE_KEY", KEY)
+    _seq(monkeypatch, (200, {}, b"{}"))
+    assert cli.cmd_roundtrip(_args()) == 2
+    assert "expected 402" in capsys.readouterr().err
+
+
+def test_roundtrip_missing_key_errors(monkeypatch, capsys):
+    monkeypatch.delenv("X402LINT_PRIVATE_KEY", raising=False)
+    assert cli.cmd_roundtrip(_args()) == 2
+    assert "private key not found" in capsys.readouterr().err

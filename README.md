@@ -136,10 +136,26 @@ X-PAYMENT: eyJ4NDAyVmVyc2lvbiI6MSwic2NoZW1lIjoiZXhhY3Qi...
 `--json` emits the payer, authorization tuple, signature, full `PaymentPayload`,
 and header.
 
-## Roadmap
+### `x402lint roundtrip <url>`
 
-- `x402lint roundtrip <url>` — `pay` + actually submit the payment and verify
-  on-chain settlement on Base Sepolia testnet
+`pay`, then resend the request with the `X-PAYMENT` header and report what the
+server did with it. Decodes the `X-PAYMENT-RESPONSE` header (`success`,
+`transaction`, `network`); falls back to the response body's `error` string when
+the payment is rejected. Exits `0` only if the payment settled, `1` otherwise.
+
+```
+export X402LINT_PRIVATE_KEY=0x...
+$ x402lint roundtrip https://api.example.com/data
+# payer     0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A
+# payTo     0x209693Bc6afc0C5328bA36FaF03C514EF312287C
+# value     1000 atomic units  (chain 84532)
+# retry     HTTP 200
+
+SETTLED  tx 0xabc123...
+```
+
+Needs the `pay` extra and a funded key for a real settlement; without funds it
+reports `NOT SETTLED (insufficient_funds)` after exercising the full path.
 
 ## Protocol notes
 

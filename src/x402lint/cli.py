@@ -6,6 +6,7 @@ Subcommands:
   facilitator [url]   list the scheme/network pairs a facilitator settles
   survey [catalogue]  run `check` across the busiest discovery-catalogue endpoints
   pay <url>           sign an exact-scheme payment for an endpoint's 402 (offline)
+  roundtrip <url>     sign, resend with the payment, report the settlement result
 """
 
 from __future__ import annotations
@@ -34,11 +35,15 @@ _LEVEL_COLOR = {"PASS": "\033[32m", "WARN": "\033[33m", "FAIL": "\033[31m", "INF
 _RESET = "\033[0m"
 
 
-def _fetch(url: str, method: str, timeout: float) -> tuple[int, dict[str, str], bytes]:
-    req = urllib.request.Request(url, method=method, headers={
+def _fetch(url: str, method: str, timeout: float,
+           extra_headers: dict[str, str] | None = None) -> tuple[int, dict[str, str], bytes]:
+    hdrs = {
         "User-Agent": f"x402lint/{__version__}",
         "Accept": "application/json",
-    })
+    }
+    if extra_headers:
+        hdrs.update(extra_headers)
+    req = urllib.request.Request(url, method=method, headers=hdrs)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             return resp.status, dict(resp.headers.items()), resp.read()
@@ -218,6 +223,93 @@ def cmd_pay(args: argparse.Namespace) -> int:
     return 0
 
 
+def _settlement_from_headers(headers: dict[str, str]):
+    """Decode the X-PAYMENT-RESPONSE header a resource returns after settling."""
+    for k, v in headers.items():
+        if k.lower() == "x-payment-response" and v.strip():
+            try:
+                return b64json(v)
+            except X402LintError:
+                return {"_raw": v}
+    return None
+
+
+def cmd_roundtrip(args: argparse.Namespace) -> int:
+    """Sign a payment, resend the request with it, and report the settlement."""
+    from . import pay as paymod
+
+    key = os.environ.get(args.key_env)
+    if not key:
+        print(f"error: private key not found in ${args.key_env}; "
+              f"export it or pass --key-env NAME", file=sys.stderr)
+        return 2
+    try:
+        status, headers, body = _fetch(args.url, args.method, args.timeout)
+        if status != 402:
+            print(f"error: {args.url} returned HTTP {status}, expected 402", file=sys.stderr)
+            return 2
+        doc = paymod.challenge_document(status, headers, body)
+        entry = paymod.select_exact_entry(doc, args.accept_index)
+        prepared = paymod.prepare_payment(entry, key, x402_version=args.x402_version)
+    except X402LintError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+
+    try:
+        status2, headers2, body2 = _fetch(
+            args.url, args.method, args.timeout,
+            extra_headers={"X-PAYMENT": prepared["header"]},
+        )
+    except X402LintError as e:
+        print(f"error: resending with payment failed: {e}", file=sys.stderr)
+        return 2
+
+    settlement = _settlement_from_headers(headers2)
+    try:
+        body_json = json.loads(body2) if body2 else None
+    except json.JSONDecodeError:
+        body_json = None
+
+    settled = status2 not in (402, 401, 403) and status2 < 500
+    tx = None
+    reason = None
+    if isinstance(settlement, dict):
+        tx = settlement.get("transaction") or settlement.get("txHash") or settlement.get("transactionHash")
+        if settlement.get("success") is False:
+            settled = False
+            reason = settlement.get("errorReason") or settlement.get("error")
+    if not settled and reason is None and isinstance(body_json, dict):
+        reason = body_json.get("error") or body_json.get("x402ErrorReason")
+
+    result = {
+        "url": args.url,
+        "payer": prepared["payer"],
+        "pay_to": prepared["authorization"]["to"],
+        "value": prepared["authorization"]["value"],
+        "network": prepared["typed_data"]["domain"]["chainId"],
+        "retry_status": status2,
+        "settled": bool(settled),
+        "transaction": tx,
+        "reason": reason,
+        "settlement_response": settlement,
+    }
+
+    if args.json:
+        json.dump(result, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 0 if settled else 1
+
+    print(f"# payer     {result['payer']}")
+    print(f"# payTo     {result['pay_to']}")
+    print(f"# value     {result['value']} atomic units  (chain {result['network']})")
+    print(f"# retry     HTTP {status2}")
+    if settled:
+        print(f"\nSETTLED{'  tx ' + tx if tx else ''}")
+    else:
+        print(f"\nNOT SETTLED{'  (' + reason + ')' if reason else ''}")
+    return 0 if settled else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="x402lint", description=__doc__.splitlines()[0])
     p.add_argument("--version", action="version", version=f"x402lint {__version__}")
@@ -265,6 +357,20 @@ def build_parser() -> argparse.ArgumentParser:
     y.add_argument("--timeout", type=float, default=10.0)
     y.add_argument("--json", action="store_true", help="machine-readable output")
     y.set_defaults(func=cmd_pay)
+
+    r = sub.add_parser("roundtrip",
+                       help="sign a payment, resend the request, report the settlement")
+    r.add_argument("url")
+    r.add_argument("--method", default="GET")
+    r.add_argument("--accept-index", type=int, default=None,
+                   help="which accepts[] entry to pay (default: first 'exact')")
+    r.add_argument("--key-env", default="X402LINT_PRIVATE_KEY",
+                   help="env var holding the 0x private key (default: X402LINT_PRIVATE_KEY)")
+    r.add_argument("--x402-version", type=int, default=1, choices=(1, 2),
+                   help="x402Version to stamp on the PaymentPayload (default: 1)")
+    r.add_argument("--timeout", type=float, default=15.0)
+    r.add_argument("--json", action="store_true", help="machine-readable output")
+    r.set_defaults(func=cmd_roundtrip)
 
     return p
 
