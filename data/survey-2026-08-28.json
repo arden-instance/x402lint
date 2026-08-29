@@ -1,0 +1,428 @@
+{
+  "n": 30,
+  "conformant": 29,
+  "results": [
+    {
+      "resource": "https://x402.twit.sh/tweets/search?from=elonmusk&minLikes=100&words=bitcoin",
+      "method": "GET",
+      "calls_30d": 26691,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stableenrich.dev/api/exa/search",
+      "method": "POST",
+      "calls_30d": 21672,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.tavily.com/search",
+      "method": "POST",
+      "calls_30d": 4566,
+      "wire_version": "2",
+      "ok": false,
+      "counts": {
+        "PASS": 17,
+        "WARN": 1,
+        "FAIL": 1,
+        "INFO": 4
+      },
+      "fails": [
+        "accepts[1].amount: 'amount' must be a base-10 string of a positive integer, got '0.016'"
+      ]
+    },
+    {
+      "resource": "https://stableenrich.dev/api/exa/contents",
+      "method": "POST",
+      "calls_30d": 4453,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://glim.sh/api/v1/twitter/search",
+      "method": "POST",
+      "calls_30d": 4016,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.exa.ai/search",
+      "method": "POST",
+      "calls_30d": 3191,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stableenrich.dev/api/firecrawl/search",
+      "method": "POST",
+      "calls_30d": 2613,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://kronossignals.com/api/v1/liquidations/btc",
+      "method": "GET",
+      "calls_30d": 2335,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://blockrun.ai/api/v1/exa/search",
+      "method": "POST",
+      "calls_30d": 2285,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stableenrich.dev/api/pdl/people-enrich",
+      "method": "POST",
+      "calls_30d": 1953,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.loyalspark.online/x402-gateway/recipient-api/offers?token_address=0x0000000000000000000000000000000000000001",
+      "method": "GET",
+      "calls_30d": 1460,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://google-trends.use.x402atlas.com/trend?keyword=bitcoin",
+      "method": "GET",
+      "calls_30d": 1257,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 35,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/block-number?network=ethereum",
+      "method": "GET",
+      "calls_30d": 1123,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/erc20-balance?account=0xd8da6bf26964af9d7eed9e03e53415d37aa96045&network=ethereum&token=0xdac17f958d2ee523a2206206994597c13d831ec7",
+      "method": "GET",
+      "calls_30d": 1051,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/ens/:input?network=ethereum",
+      "method": "GET",
+      "calls_30d": 1019,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/live-balance?address=0xd8da6bf26964af9d7eed9e03e53415d37aa96045&network=ethereum",
+      "method": "GET",
+      "calls_30d": 934,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/tx/:hash?network=ethereum",
+      "method": "GET",
+      "calls_30d": 931,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.ottoai.services/crypto-news",
+      "method": "GET",
+      "calls_30d": 776,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stableenrich.dev/api/fullenrich/people-search",
+      "method": "POST",
+      "calls_30d": 765,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/nonce/:address?network=ethereum",
+      "method": "GET",
+      "calls_30d": 715,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/block/:number?network=ethereum",
+      "method": "GET",
+      "calls_30d": 702,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/erc721-tokens?contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d&network=ethereum&owner=0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+      "method": "GET",
+      "calls_30d": 699,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/erc20-transfers?network=ethereum&token=0xdac17f958d2ee523a2206206994597c13d831ec7&wallet=0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+      "method": "GET",
+      "calls_30d": 695,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/total-supply?contract=0xdac17f958d2ee523a2206206994597c13d831ec7&network=ethereum",
+      "method": "GET",
+      "calls_30d": 693,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/contract/:address?network=ethereum",
+      "method": "GET",
+      "calls_30d": 691,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/nft-metadata?contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d&network=ethereum&token_id=1",
+      "method": "GET",
+      "calls_30d": 672,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/receipt/:hash?network=ethereum",
+      "method": "GET",
+      "calls_30d": 644,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.loyalspark.online/x402-gateway/recipient-api/workflow/reward-status?token_address=0x0000000000000000000000000000000000000001",
+      "method": "GET",
+      "calls_30d": 585,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.loyalspark.online/x402-gateway/recipient-api/balance?token_address=0x0000000000000000000000000000000000000001",
+      "method": "GET",
+      "calls_30d": 574,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.loyalspark.online/x402-gateway/recipient-api/vouchers?token_address=0x0000000000000000000000000000000000000001",
+      "method": "GET",
+      "calls_30d": 574,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    }
+  ]
+}
