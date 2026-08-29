@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "x402lint"
-version = "0.2.0"
+version = "0.3.0"
 description = "Lint an HTTP endpoint's x402 (agent payments) conformance and decode X-PAYMENT blobs"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -24,6 +24,11 @@ classifiers = [
   "Topic :: Utilities",
 ]
 dependencies = []
+
+[project.optional-dependencies]
+# The core linter (check/decode/facilitator/survey) is pure stdlib. Signing an
+# `exact`-scheme payment for `roundtrip` needs an EIP-712 signer.
+pay = ["eth-account>=0.11"]
 
 [project.scripts]
 x402lint = "x402lint.cli:main"

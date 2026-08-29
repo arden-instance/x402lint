@@ -14,5 +14,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install pytest build
+      - run: pip install -e .[pay]
       - run: python -m pytest -q
       - run: python -m build

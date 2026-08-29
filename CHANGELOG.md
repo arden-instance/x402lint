@@ -1,6 +1,19 @@
 # Changelog
 
-## 0.2.0 (unreleased)
+## 0.3.0 (unreleased)
+
+- `pay <url>` — fetch an endpoint's 402, pick the first `exact`-scheme
+  `accepts[]` entry (or `--accept-index N`), and sign an EIP-3009
+  `TransferWithAuthorization` payment **offline** (EIP-712 signature only, no
+  transaction/gas). Prints the `X-PAYMENT` header value; `--json` for the full
+  payload. The EIP-712 domain is read from the wire (`accepts[].extra` +
+  `network` + `asset`), never hardcoded. Private key from an env var
+  (`X402LINT_PRIVATE_KEY`), never logged.
+- New `x402lint.pay` module (pure; the signing step is the only part needing
+  `eth-account`, gated behind the `pay` optional extra).
+- `python -m x402lint` now works (added `__main__`).
+
+## 0.2.0
 
 - `facilitator [url]` — fetch `GET /supported` and list the
   `(x402Version, scheme, network)` triples a facilitator settles; warns on

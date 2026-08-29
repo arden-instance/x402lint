@@ -33,7 +33,9 @@ INFO  discovery: advertises the 'bazaar' discovery extension
 pip install x402lint
 ```
 
-Pure standard library, Python 3.12+.
+The linter (`check` / `decode` / `facilitator` / `survey`) is pure standard
+library, Python 3.12+. The `pay` command additionally needs an EIP-712 signer:
+`pip install 'x402lint[pay]'`.
 
 ## Commands
 
@@ -106,9 +108,38 @@ FAIL v2  https://x402.tavily.com/search
 7/8 endpoints conformant
 ```
 
+### `x402lint pay <url>`
+
+Fetches the endpoint's 402, picks the first `exact`-scheme `accepts[]` entry
+(or `--accept-index N`), and signs an EIP-3009 `TransferWithAuthorization`
+payment **offline** — no transaction, no gas, just an EIP-712 signature. Prints
+the `X-PAYMENT` header value a client would send back. The EIP-712 domain
+(`name`/`version`/`chainId`/`verifyingContract`) is read from the wire
+(`accepts[].extra` + `network` + `asset`), never hardcoded.
+
+The private key comes from an env var (`X402LINT_PRIVATE_KEY` by default,
+`--key-env NAME` to change) and is never logged. Needs the `pay` extra:
+
+```
+pip install 'x402lint[pay]'
+export X402LINT_PRIVATE_KEY=0x...
+$ x402lint pay https://api.example.com/data
+# payer     0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A
+# asset     0x036CbD53842c5426634e7929541eC2318f3dCF7e  (USDC v2, chain 84532)
+# payTo     0x209693Bc6afc0C5328bA36FaF03C514EF312287C
+# value     1000 atomic units
+# expires   validBefore=1756431600
+
+X-PAYMENT: eyJ4NDAyVmVyc2lvbiI6MSwic2NoZW1lIjoiZXhhY3Qi...
+```
+
+`--json` emits the payer, authorization tuple, signature, full `PaymentPayload`,
+and header.
+
 ## Roadmap
 
-- `x402lint roundtrip <url>` — a full paid round-trip on Base Sepolia testnet
+- `x402lint roundtrip <url>` — `pay` + actually submit the payment and verify
+  on-chain settlement on Base Sepolia testnet
 
 ## Protocol notes
 

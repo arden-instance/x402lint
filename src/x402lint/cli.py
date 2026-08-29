@@ -5,12 +5,14 @@ Subcommands:
   decode <blob>       pretty-print any base64 x402 header blob (- reads stdin)
   facilitator [url]   list the scheme/network pairs a facilitator settles
   survey [catalogue]  run `check` across the busiest discovery-catalogue endpoints
+  pay <url>           sign an exact-scheme payment for an endpoint's 402 (offline)
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import urllib.error
 import urllib.parse
@@ -179,6 +181,43 @@ def cmd_survey(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_pay(args: argparse.Namespace) -> int:
+    from . import pay as paymod
+
+    key = os.environ.get(args.key_env)
+    if not key:
+        print(f"error: private key not found in ${args.key_env}; "
+              f"export it or pass --key-env NAME", file=sys.stderr)
+        return 2
+    try:
+        status, headers, body = _fetch(args.url, args.method, args.timeout)
+        if status != 402:
+            print(f"error: {args.url} returned HTTP {status}, expected 402", file=sys.stderr)
+            return 2
+        doc = paymod.challenge_document(status, headers, body)
+        entry = paymod.select_exact_entry(doc, args.accept_index)
+        out = paymod.prepare_payment(entry, key, x402_version=args.x402_version)
+    except X402LintError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+
+    if args.json:
+        json.dump({k: out[k] for k in ("payer", "authorization", "signature",
+                                       "payment_payload", "header")},
+                  sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 0
+
+    dom = out["typed_data"]["domain"]
+    print(f"# payer     {out['payer']}")
+    print(f"# asset     {dom['verifyingContract']}  ({dom['name']} v{dom['version']}, chain {dom['chainId']})")
+    print(f"# payTo     {out['authorization']['to']}")
+    print(f"# value     {out['authorization']['value']} atomic units")
+    print(f"# expires   validBefore={out['authorization']['validBefore']}")
+    print(f"\nX-PAYMENT: {out['header']}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="x402lint", description=__doc__.splitlines()[0])
     p.add_argument("--version", action="version", version=f"x402lint {__version__}")
@@ -213,6 +252,19 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--timeout", type=float, default=10.0)
     s.add_argument("--json", action="store_true", help="machine-readable report")
     s.set_defaults(func=cmd_survey)
+
+    y = sub.add_parser("pay", help="sign an exact-scheme payment for an endpoint's 402 (offline)")
+    y.add_argument("url")
+    y.add_argument("--method", default="GET")
+    y.add_argument("--accept-index", type=int, default=None,
+                   help="which accepts[] entry to pay (default: first 'exact')")
+    y.add_argument("--key-env", default="X402LINT_PRIVATE_KEY",
+                   help="env var holding the 0x private key (default: X402LINT_PRIVATE_KEY)")
+    y.add_argument("--x402-version", type=int, default=1, choices=(1, 2),
+                   help="x402Version to stamp on the PaymentPayload (default: 1)")
+    y.add_argument("--timeout", type=float, default=10.0)
+    y.add_argument("--json", action="store_true", help="machine-readable output")
+    y.set_defaults(func=cmd_pay)
 
     return p
 
