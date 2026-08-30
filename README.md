@@ -207,6 +207,11 @@ jobs:
 The step exits non-zero (failing the job) if any endpoint returns a
 non-conformant `402`, annotating the run with the specific findings.
 
+A runnable worked example lives at
+[`.github/workflows/x402.yml`](.github/workflows/x402.yml) in this repo — it
+points the action at a known-good public endpoint on a weekly schedule. Copy it
+and swap in your own URL(s).
+
 ## Protocol notes
 
 Two wire formats exist. **v2** (`x402Version: 2`, Linux Foundation spec) is

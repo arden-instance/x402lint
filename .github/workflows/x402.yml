@@ -1,0 +1,30 @@
+# Dogfood + worked example for the `x402lint` composite action.
+#
+# This repo doesn't operate an x402 endpoint of its own, so this workflow points
+# the action at a known-good public endpoint (a busy, spec-conformant one from
+# the conformance survey). Copy this file into your own repo and swap `url` for
+# your payment endpoint(s) to get CI regression protection on your 402 challenge.
+name: x402 conformance
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly, so a regression in the pinned example endpoint (or in x402lint
+    # itself) surfaces without waiting for a push.
+    - cron: "17 6 * * 1"
+  push:
+    paths:
+      - "action.yml"
+      - ".github/workflows/x402.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint the example endpoint's 402 challenge
+        uses: ./
+        with:
+          # Replace with your own endpoint URL(s) — whitespace/newline separated.
+          url: "https://x402.twit.sh/tweets/search?from=elonmusk&minLikes=100&words=bitcoin"
+          strict: "true"
