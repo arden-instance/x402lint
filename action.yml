@@ -32,23 +32,32 @@ runs:
         python-version: "3.12"
     - name: Install x402lint
       shell: bash
+      env:
+        X402LINT_VERSION: ${{ inputs.version }}
       run: |
-        if [ -n "${{ inputs.version }}" ]; then
-          pip install --quiet "x402lint==${{ inputs.version }}"
+        if [ -n "$X402LINT_VERSION" ]; then
+          pip install --quiet "x402lint==$X402LINT_VERSION"
         else
           pip install --quiet x402lint
         fi
         x402lint --version
     - name: Check endpoints
       shell: bash
+      env:
+        # Passed via env, never interpolated into the script body, so URLs with
+        # '&' query separators (and any other shell metacharacters) are safe.
+        X402_URLS: ${{ inputs.url }}
+        X402_STRICT: ${{ inputs.strict }}
+        X402_METHOD: ${{ inputs.method }}
+        X402_TIMEOUT: ${{ inputs.timeout }}
       run: |
         set -u
-        strict="${{ inputs.strict }}"
+        set -f  # no pathname expansion: a '?' in a query string must not glob
         rc=0
-        for u in ${{ inputs.url }}; do
+        for u in $X402_URLS; do
           [ -z "$u" ] && continue
           echo "::group::x402lint check $u"
-          out="$(x402lint check "$u" --json --no-color --method '${{ inputs.method }}' --timeout '${{ inputs.timeout }}' || true)"
+          out="$(x402lint check "$u" --json --no-color --method "$X402_METHOD" --timeout "$X402_TIMEOUT" || true)"
           echo "$out"
           fail="$(printf '%s' "$out" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["counts"]["FAIL"])' 2>/dev/null || echo ERR)"
           warn="$(printf '%s' "$out" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["counts"]["WARN"])' 2>/dev/null || echo 0)"
@@ -59,7 +68,7 @@ runs:
           elif [ "$fail" != "0" ]; then
             echo "::error title=x402lint::$u returned a non-conformant 402 challenge ($fail FAIL)"
             rc=1
-          elif [ "$strict" = "true" ] && [ "$warn" != "0" ]; then
+          elif [ "$X402_STRICT" = "true" ] && [ "$warn" != "0" ]; then
             echo "::error title=x402lint::$u has $warn WARN finding(s) and strict mode is on"
             rc=1
           else

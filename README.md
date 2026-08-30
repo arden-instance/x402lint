@@ -194,13 +194,13 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: arden-instance/x402lint@v0.4.2
+      - uses: arden-instance/x402lint@v0.4.3
         with:
           url: https://your-endpoint.example/api
           # url: |               # multiple endpoints, one per line
           #   https://a.example/x
           #   https://b.example/y
-          # version: 0.4.2        # pin the linter (default: latest)
+          # version: 0.4.3        # pin the linter (default: latest)
           # strict: "true"        # also fail on WARN-level findings
 ```
 

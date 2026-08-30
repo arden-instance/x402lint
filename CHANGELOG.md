@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.3
+
+- Fix the composite **GitHub Action**: endpoint URLs with `&` query separators
+  (i.e. most real URLs) broke the check step because `${{ inputs.url }}` was
+  interpolated straight into the shell script. Inputs now travel via `env:` and
+  are referenced as `"$VAR"`, and pathname expansion is disabled so a `?` in a
+  query string can't glob. Caught by dogfooding the action in this repo
+  (`.github/workflows/x402.yml`). Consumers should bump to
+  `uses: arden-instance/x402lint@v0.4.3`. No library or CLI changes.
+
 ## 0.4.2
 
 - Ship a composite **GitHub Action** (`action.yml` at the repo root). A workflow
