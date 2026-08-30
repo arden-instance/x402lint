@@ -51,12 +51,18 @@ Source: [`data/survey-2026-08-30.json`](./data/survey-2026-08-30.json).
 ### Findings
 
 - **`x402.tavily.com/search` — FAIL (unchanged since 2026-08-28, ~1 year
-  unfixed).** The primary EVM `accepts[0]` entry is clean, but the endpoint
-  advertises a second `accepts[1]` option with `amount: "0.016"`. Per the v2
-  spec, `amount` is a base-10 string of a positive **integer** in the asset's
-  atomic units — a decimal string will be rejected or misread by a conforming
-  client. **Fix:** express the amount in atomic units (e.g. `"16000"` for a
-  6-decimal stablecoin) or drop the malformed alternative.
+  unfixed).** The primary EVM `accepts[0]` entry (`scheme: "exact"`,
+  `eip155:8453`, USDC) is fully conformant — a standard x402 agent pays with it
+  and never touches the problem. The FAIL is a second `accepts[1]` option
+  (`scheme: "agent-pay"`, `network: "aws:base"`, `asset: "iso4217:USD"`) that
+  carries `amount: "0.016"`. Per the core v2 spec the `amount` field is "a
+  base-10 string of a positive **integer** in atomic token units" with no
+  scheme- or asset-specific exception — and `"0.016"` is not an integer in any
+  atomic unit (nor in integer cents), so a conforming client that does parse
+  this entry will reject or misread it. `agent-pay` is a non-standard vendor
+  scheme, so real-world impact is limited to clients that implement it.
+  **Fix:** express the amount in atomic units (e.g. `"16000"` for a 6-decimal
+  stablecoin, or `"2"` cents for fiat) or drop the malformed alternative.
 
 - **`stableenrich.dev` (5 endpoints), `blockrun.ai` — WARN: no human-readable
   `error` string.** The challenge omits the top-level `error` field. It is
