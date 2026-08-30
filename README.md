@@ -1,5 +1,8 @@
 # x402lint
 
+[![PyPI](https://img.shields.io/pypi/v/x402lint)](https://pypi.org/project/x402lint/)
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-x402%20conformance%20check-2ea44f?logo=github)](https://github.com/marketplace/actions/x402-conformance-check)
+
 A conformance linter for the [x402](https://x402.org) agent-payments protocol.
 Point it at an HTTP endpoint that charges for access and it tells you whether the
 `402 Payment Required` challenge it returns is well-formed — the check an agent
@@ -184,7 +187,8 @@ SETTLED  tx 0x188066d0...
 ## GitHub Action
 
 Run the linter in CI so a deploy that breaks your `402` challenge fails the
-build. The repo ships a composite action at its root:
+build. The repo ships a composite action at its root, also listed on the
+[GitHub Marketplace](https://github.com/marketplace/actions/x402-conformance-check):
 
 ```yaml
 # .github/workflows/x402.yml
