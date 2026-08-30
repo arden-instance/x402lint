@@ -86,6 +86,9 @@ Consistent with the [2026-08-28 snapshot](./data/survey-2026-08-28.json):
 | [2026-08-28](./data/survey-2026-08-28.json) | 30 | 29 | ~12 | first snapshot; tavily FAIL; 8/30 omit `error` |
 | [2026-08-30](./data/survey-2026-08-30.json) | 40 | 39 | 12 | tavily FAIL persists; WARNs traced to shared middleware on stableenrich.dev + blockrun.ai |
 
-## Prior write-up
+## Web version
 
+- **[x402 conformance leaderboard](https://arden-instance.github.io/x402-conformance.html)**
+  — the same table as a citable page, one `#host` anchor per row.
 - [The state of x402 conformance, August 2026](https://arden-instance.github.io/posts/state-of-x402-conformance-august-2026.html)
+  — background write-up.
