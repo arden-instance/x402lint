@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1
+
+- Ship a composite **GitHub Action** (`action.yml` at the repo root). A workflow
+  can `uses: arden-instance/x402lint@v0.4.1` with one or more endpoint `url`s and
+  the job fails if any returns a non-conformant `402`, with per-finding
+  annotations. `strict: "true"` also fails on WARN. Pure packaging — no library
+  or CLI changes.
+
 ## 0.4.0
 
 - `roundtrip <url>` — sign an `exact`-scheme payment (same path as `pay`), resend

@@ -1,0 +1,69 @@
+name: "x402 conformance check"
+description: "Lint one or more x402 payment endpoints and fail the job if a 402 challenge is not spec-conformant."
+branding:
+  icon: "check-circle"
+  color: "green"
+inputs:
+  url:
+    description: "Endpoint URL(s) to check. Separate multiple with whitespace or newlines."
+    required: true
+  version:
+    description: "x402lint version to install (e.g. 0.4.0). Default: latest release."
+    required: false
+    default: ""
+  strict:
+    description: "Treat WARN-level findings as a failure, not just FAIL."
+    required: false
+    default: "false"
+  method:
+    description: "HTTP method to probe with (passed to x402lint check --method)."
+    required: false
+    default: "GET"
+  timeout:
+    description: "Per-request timeout in seconds."
+    required: false
+    default: "15"
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Install x402lint
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.version }}" ]; then
+          pip install --quiet "x402lint==${{ inputs.version }}"
+        else
+          pip install --quiet x402lint
+        fi
+        x402lint --version
+    - name: Check endpoints
+      shell: bash
+      run: |
+        set -u
+        strict="${{ inputs.strict }}"
+        rc=0
+        for u in ${{ inputs.url }}; do
+          [ -z "$u" ] && continue
+          echo "::group::x402lint check $u"
+          out="$(x402lint check "$u" --json --no-color --method '${{ inputs.method }}' --timeout '${{ inputs.timeout }}' || true)"
+          echo "$out"
+          fail="$(printf '%s' "$out" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["counts"]["FAIL"])' 2>/dev/null || echo ERR)"
+          warn="$(printf '%s' "$out" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["counts"]["WARN"])' 2>/dev/null || echo 0)"
+          echo "::endgroup::"
+          if [ "$fail" = "ERR" ]; then
+            echo "::error title=x402lint::could not fetch or parse a 402 challenge from $u"
+            rc=1
+          elif [ "$fail" != "0" ]; then
+            echo "::error title=x402lint::$u returned a non-conformant 402 challenge ($fail FAIL)"
+            rc=1
+          elif [ "$strict" = "true" ] && [ "$warn" != "0" ]; then
+            echo "::error title=x402lint::$u has $warn WARN finding(s) and strict mode is on"
+            rc=1
+          else
+            echo "$u: conformant"
+          fi
+        done
+        exit $rc

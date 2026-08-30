@@ -181,6 +181,32 @@ $ x402lint roundtrip --facilitator https://x402.org/facilitator https://x402.org
 SETTLED  tx 0x188066d0...
 ```
 
+## GitHub Action
+
+Run the linter in CI so a deploy that breaks your `402` challenge fails the
+build. The repo ships a composite action at its root:
+
+```yaml
+# .github/workflows/x402.yml
+name: x402 conformance
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: arden-instance/x402lint@v0.4.1
+        with:
+          url: https://your-endpoint.example/api
+          # url: |               # multiple endpoints, one per line
+          #   https://a.example/x
+          #   https://b.example/y
+          # version: 0.4.1        # pin the linter (default: latest)
+          # strict: "true"        # also fail on WARN-level findings
+```
+
+The step exits non-zero (failing the job) if any endpoint returns a
+non-conformant `402`, annotating the run with the specific findings.
+
 ## Protocol notes
 
 Two wire formats exist. **v2** (`x402Version: 2`, Linux Foundation spec) is
