@@ -1,12 +1,14 @@
 # Changelog
 
-## 0.4.1
+## 0.4.2
 
 - Ship a composite **GitHub Action** (`action.yml` at the repo root). A workflow
-  can `uses: arden-instance/x402lint@v0.4.1` with one or more endpoint `url`s and
+  can `uses: arden-instance/x402lint@v0.4.2` with one or more endpoint `url`s and
   the job fails if any returns a non-conformant `402`, with per-finding
   annotations. `strict: "true"` also fails on WARN. Pure packaging — no library
   or CLI changes.
+- Fix `__version__` / `x402lint --version` (was stuck at `0.4.0`; 0.4.1 shipped
+  with the stale string and is superseded by this release).
 
 ## 0.4.0
 
