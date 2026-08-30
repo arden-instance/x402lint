@@ -108,6 +108,10 @@ FAIL v2  https://x402.tavily.com/search
 7/8 endpoints conformant
 ```
 
+Recurring survey results — a per-host conformance table of the busiest live x402
+endpoints — are maintained in [SURVEY.md](./SURVEY.md), with dated snapshots in
+[`data/`](./data/).
+
 ### `x402lint pay <url>`
 
 Fetches the endpoint's 402, picks the first `exact`-scheme `accepts[]` entry
