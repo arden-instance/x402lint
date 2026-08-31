@@ -13,9 +13,10 @@ are listed under [Findings](#findings) with the exact field and fix.
 
 ## Methodology
 
-- **Population:** the Coinbase CDP discovery catalogue
-  (`api.cdp.coinbase.com/platform/v2/x402/discovery/resources`), ranked by
-  reported 30-day call volume. The survey takes the top *N* resources.
+- **Population:** the full Coinbase CDP discovery catalogue
+  (`api.cdp.coinbase.com/platform/v2/x402/discovery/resources`, paginated to
+  completion — ~14,300 resources), ranked by reported 30-day call volume. The
+  survey takes the top *N*, deduplicated to one row per host with `--per-host`.
 - **Request:** each resource is fetched with **no** payment header, replaying the
   resource's own advertised `bazaar` input method and example parameters so the
   request actually reaches the paywall (not a routing 404).
@@ -26,64 +27,102 @@ are listed under [Findings](#findings) with the exact field and fix.
   [README](./README.md#x402lint-check-url).
 - **Verdict:** `FAIL` = at least one hard violation (an agent cannot safely pay);
   `WARN` = spec-legal but lossy; `PASS` = clean.
-- Reproduce: `pipx run x402lint survey --limit 40 --json`.
+- Reproduce: `pipx run x402lint survey --per-host --limit 150 --json`.
 
-## Latest snapshot — 2026-08-30
+## Latest snapshot — 2026-08-31
 
-Top 40 resources → **12 distinct hosts**, **39 / 40 endpoints conformant**.
-Source: [`data/survey-2026-08-30.json`](./data/survey-2026-08-30.json).
+Top 150 resources by 30-day call volume, deduplicated to **one row per host**
+(its busiest advertised path): **150 distinct hosts**, **142 / 150 conformant**
+(124 PASS, 18 WARN, 8 FAIL).
+Source: [`data/survey-2026-08-31.json`](./data/survey-2026-08-31.json).
 
-| Host | Endpoints | 30-day calls | Wire | Verdict |
-|---|---:|---:|:--:|:--:|
-| stableenrich.dev | 5 | 30,917 | v2 | ⚠️ WARN |
-| x402.twit.sh | 1 | 22,227 | v2 | ✅ PASS |
-| api.onesource.io | 18 | 12,778 | v2 | ✅ PASS |
-| api.loyalspark.online | 7 | 4,607 | v2 | ✅ PASS |
-| glim.sh | 2 | 4,503 | v2 | ✅ PASS |
-| x402.tavily.com | 1 | 3,578 | v2 | ❌ FAIL |
-| api.exa.ai | 1 | 3,261 | v2 | ✅ PASS |
-| kronossignals.com | 1 | 2,329 | v2 | ✅ PASS |
-| blockrun.ai | 1 | 2,243 | v2 | ⚠️ WARN |
-| google-trends.use.x402atlas.com | 1 | 1,252 | v2 | ✅ PASS |
-| x402.ottoai.services | 1 | 812 | v2 | ✅ PASS |
-| tick.hugen.tokyo | 1 | 524 | v2 | ✅ PASS |
+> **Methodology change (2026-08-31):** earlier snapshots surveyed the raw top-40
+> resource rows without paginating the CDP catalogue, so both the ranking and the
+> host count were taken from an arbitrary first slice of the registry.
+> `x402lint` 0.4.4 now follows the catalogue's pagination to completion and adds
+> `--per-host`. The registry currently holds **~14,300 resources across ~1,600
+> hosts**; this snapshot covers the 150 busiest. Per-host call counts are the
+> single busiest path per host, so they are lower than the cross-path sums shown
+> in the 2026-08-30 row.
+
+Top 20 hosts:
+
+| Host | 30-day calls | Wire | Verdict |
+|---|---:|:--:|:--:|
+| stableenrich.dev | 21,055 | v2 | ⚠️ WARN |
+| x402.twit.sh | 17,562 | v2 | ✅ PASS |
+| stabletravel.dev | 6,541 | v2 | ⚠️ WARN |
+| enrichx402.com | 4,477 | v2 | ⚠️ WARN |
+| glim.sh | 4,013 | v2 | ✅ PASS |
+| x402.tavily.com | 3,327 | v2 | ❌ FAIL |
+| api.deepnets.ai | 3,315 | v2 | ✅ PASS |
+| api.exa.ai | 3,257 | v2 | ✅ PASS |
+| x402.sniperx.fun | 2,808 | v2 | ✅ PASS |
+| x402.ottoai.services | 2,789 | v2 | ✅ PASS |
+| kronossignals.com | 2,324 | v2 | ✅ PASS |
+| blockrun.ai | 2,249 | v2 | ⚠️ WARN |
+| token4u.ai | 2,242 | v2 | ❌ FAIL |
+| win.oneshotagent.com | 1,746 | v2 | ✅ PASS |
+| api.kadec0.xyz | 1,617 | v2 | ✅ PASS |
+| x402engine.app | 1,601 | v2 | ✅ PASS |
+| api.nansen.ai | 1,505 | v2 | ✅ PASS |
+| api.strale.io | 1,504 | v2 | ✅ PASS |
+| api.loyalspark.online | 1,422 | v2 | ✅ PASS |
+| google-trends.use.x402atlas.com | 1,273 | v2 | ✅ PASS |
+
+Full 150-host table: the
+[leaderboard page](https://arden-instance.github.io/x402-conformance.html) and
+[`data/x402-conformance-2026-08-31.json`](https://arden-instance.github.io/data/x402-conformance-2026-08-31.json).
 
 ### Findings
 
-- **`x402.tavily.com/search` — FAIL (unchanged since 2026-08-28, ~1 year
-  unfixed).** The primary EVM `accepts[0]` entry (`scheme: "exact"`,
-  `eip155:8453`, USDC) is fully conformant — a standard x402 agent pays with it
-  and never touches the problem. The FAIL is a second `accepts[1]` option
-  (`scheme: "agent-pay"`, `network: "aws:base"`, `asset: "iso4217:USD"`) that
-  carries `amount: "0.016"`. Per the core v2 spec the `amount` field is "a
-  base-10 string of a positive **integer** in atomic token units" with no
-  scheme- or asset-specific exception — and `"0.016"` is not an integer in any
-  atomic unit (nor in integer cents), so a conforming client that does parse
-  this entry will reject or misread it. `agent-pay` is a non-standard vendor
-  scheme, so real-world impact is limited to clients that implement it.
-  **Fix:** express the amount in atomic units (e.g. `"16000"` for a 6-decimal
-  stablecoin, or `"2"` cents for fiat) or drop the malformed alternative.
+**8 FAIL hosts** — two distinct bug classes:
 
-- **`stableenrich.dev` (5 endpoints), `blockrun.ai` — WARN: no human-readable
-  `error` string.** The challenge omits the top-level `error` field. It is
-  optional, so this is spec-legal, but clients surface it to users/operators on a
-  failed payment; without it the failure is opaque. Both hosts appear to share
-  payment middleware. **Fix:** set `error` to a short string such as
-  `"Payment required"`.
+- **Non-integer `amount` (5 hosts):** `x402.tavily.com` (`accepts[1].amount:
+  "0.016"`, unchanged and unfixed since 2026-08-28) and the **`theaslangroupllc.com`
+  operator fleet** — `gridpulse` / `riskpulse` / `waterpulse` / `macropulse`, all
+  carrying `"0.01"` or `"0.005"` in a late `accepts[]` entry. Per the core v2
+  spec `amount` is "a base-10 string of a positive **integer** in atomic token
+  units" with no scheme- or asset-specific exception, so a conforming client that
+  parses these entries rejects or misreads them. On tavily and the aslangroup
+  fleet the *primary* EVM `accepts[0]` is conformant, so a standard agent pays
+  and never hits it; the malformed entries are non-standard `agent-pay` / fiat
+  alternatives. **Fix:** express amounts in atomic units (`"16000"` for a
+  6-decimal stablecoin) or drop the malformed alternative.
+
+- **Malformed `accepts[]` entries (1 host):** `token4u.ai` — `accepts[2]` and
+  `accepts[3]` are missing required fields (`amount`, `asset`, `payTo`,
+  `maxTimeoutSeconds` null or absent). A client iterating the options hits an
+  unparseable entry.
+
+- **`400` instead of `402` (2 hosts):** `x402.telnyx.com` and
+  `api.surplusintelligence.ai`, both `/v1/chat/completions` LLM proxies, validate
+  the request body before issuing a payment challenge and return `400` to the
+  empty probe request. The x402 flow expects the `402` first, so this is a real
+  deviation, but it is lower-confidence than the malformed-`amount` FAILs — a
+  caller sending a complete body may reach the paywall. Both are low-volume
+  (<200 calls/30d).
+
+- **WARN (18 hosts): no top-level `error` string.** The challenge omits the
+  optional human-readable `error` field. Spec-legal, but clients surface it on a
+  failed payment; without it the failure is opaque. Several WARN hosts
+  (`stableenrich.dev`, `enrichx402.com`, `stabletravel.dev`, the other
+  `stable*.dev` / `*x402*` properties) share payment middleware — one fix
+  upstream clears many rows. **Fix:** set `error` to e.g. `"Payment required"`.
 
 ### Reading the trend
 
-Consistent with the [2026-08-28 snapshot](./data/survey-2026-08-28.json):
-
-- **The busy end of x402 is entirely v2.** No v1 wire format appears in the top
-  40. Tooling that only speaks v1 is now legacy.
-- **The active host set is small and concentrated** — ~12 distinct operators, and
-  a single provider (`api.onesource.io`) accounts for 18 of the top 40 resource
-  rows. The long tail of the CDP catalogue is mostly demo/test endpoints with
-  negligible traffic.
-- **Conformance is high and stable.** The one persistent FAIL is a single
-  secondary payment option on one host; everything else is clean or carries only
-  the optional-`error` WARN.
+- **The ecosystem is bigger than the earlier snapshots implied.** The CDP
+  discovery catalogue now lists ~14,300 resources / ~1,600 hosts. Traffic is
+  still concentrated — roughly 30 hosts clear 1,000 calls/30d and ~170 clear 100
+  — but "the active x402 host set" is ~150–200 real services, not ~12. The
+  earlier "~12 hosts" figure was an artifact of surveying an unpaginated top-40.
+- **The busy end is entirely v2.** No v1 wire format appears among the 150.
+  v1-only tooling is legacy.
+- **Conformance is high: 142/150 (95%).** Every FAIL is on a secondary/optional
+  payment path or a low-volume proxy; no busy host's primary EVM `accepts[0]` is
+  broken. The dominant defect is still the cosmetic optional-`error` omission,
+  clustered on shared middleware.
 
 ## Snapshot history
 
@@ -91,6 +130,7 @@ Consistent with the [2026-08-28 snapshot](./data/survey-2026-08-28.json):
 |---|---:|---:|---:|---|
 | [2026-08-28](./data/survey-2026-08-28.json) | 30 | 29 | ~12 | first snapshot; tavily FAIL; 8/30 omit `error` |
 | [2026-08-30](./data/survey-2026-08-30.json) | 40 | 39 | 12 | tavily FAIL persists; WARNs traced to shared middleware on stableenrich.dev + blockrun.ai |
+| [2026-08-31](./data/survey-2026-08-31.json) | 150 | 142 | 150 | **methodology change:** catalogue paginated + `--per-host`; registry is ~14,300 resources / ~1,600 hosts, this covers the 150 busiest. 8 FAIL (tavily + theaslangroupllc fleet non-integer `amount`; token4u malformed `accepts[]`; telnyx + surplusintelligence return 400 not 402); 18 `error`-omission WARN on shared middleware |
 
 ## Web version
 
