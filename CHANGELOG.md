@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Tests: added `test_spec_examples.py` — asserts the linter grades the x402
+  Foundation spec's own canonical `402` examples (`specs/transports-v{1,2}/http.md`)
+  with zero FAIL/WARN findings. A conformance checker that fails the spec's own
+  example is miscalibrated; both currently pass clean (14 PASS / 0 WARN / 0 FAIL).
+  No behaviour change.
+
 ## 0.4.4
 
 - `survey` now **paginates the discovery catalogue**. The CDP catalogue caps a

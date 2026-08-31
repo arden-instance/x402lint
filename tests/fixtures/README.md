@@ -24,3 +24,8 @@ catalogue, so the v1 path is covered by a synthetic case in `test_protocol.py`.
   discovery catalogue (`GET /platform/v2/x402/discovery/resources`), 100 items.
 - `facilitator_supported.json` — `GET https://x402.org/facilitator/supported`
   (testnet facilitator; scheme/network pairs it settles).
+- `spec_v2_http_canonical_402.json` / `spec_v1_http_canonical_402.json` — the
+  verbatim "Payment Required Signaling" example from the x402 Foundation spec's
+  HTTP transport docs (`specs/transports-v{1,2}/http.md`), fetched 2026-08-31.
+  `test_spec_examples.py` asserts the linter grades each with zero findings — a
+  conformance checker that fails the spec's own example is miscalibrated.

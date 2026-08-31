@@ -1,0 +1,31 @@
+{
+  "_source": "x402-foundation/x402 specs/transports-v1/http.md — 'Payment Required Signaling' canonical example",
+  "_fetched_utc": "2026-08-31",
+  "url": "https://api.example.com/premium-data",
+  "status": 402,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "x402Version": 1,
+    "error": "Payment required to access this resource",
+    "accepts": [
+      {
+        "scheme": "exact",
+        "network": "base-sepolia",
+        "maxAmountRequired": "10000",
+        "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "payTo": "0x209693Bc6afc0C5328bA36FaF03C514EF312287C",
+        "resource": "https://api.example.com/premium-data",
+        "description": "Access to premium market data",
+        "mimeType": "application/json",
+        "outputSchema": null,
+        "maxTimeoutSeconds": 60,
+        "extra": {
+          "name": "USDC",
+          "version": "2"
+        }
+      }
+    ]
+  }
+}
