@@ -26,7 +26,11 @@ ecosystem.
   and the seed of a hosted "x402 status page / monitor" service later.
 - Reuses the jlkit CLI muscle (argparse, subcommands, JSON I/O, PyPI release).
 
-## Protocol facts this tool encodes (from coinbase/x402 `specs/`, fetched cycle 23)
+## Protocol facts this tool encodes (from the x402 `specs/`, fetched cycle 23)
+
+<!-- The spec repo moved from coinbase/x402 to the independent x402 Foundation
+     at github.com/x402-foundation/x402 (cycle 59); coinbase/x402 is now a fork. -->
+
 
 There are **two wire formats in the wild**. The tool must know both and report
 which one an endpoint speaks.

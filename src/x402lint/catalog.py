@@ -15,6 +15,7 @@ Pure parsing only; network I/O lives in :mod:`x402lint.cli`.
 from __future__ import annotations
 
 from typing import Any
+from urllib.parse import urlsplit
 
 from .protocol import _CAIP2, KNOWN_SCHEMES, X402LintError
 
@@ -141,14 +142,49 @@ def _bazaar_input(item: dict[str, Any]) -> tuple[str, dict[str, str]]:
     method = inp.get("method")
     method = method.upper() if isinstance(method, str) and method else "GET"
     qp = inp.get("queryParams")
-    query = {str(k): str(v) for k, v in qp.items()} if isinstance(qp, dict) else {}
+    # Only scalar example values are usable as a real query string; some
+    # resources advertise a schema object (``{"default": ..., "type": ...}``)
+    # per param, which would otherwise urlencode as a Python repr and trigger a
+    # spurious 400 in the survey.
+    query: dict[str, str] = {}
+    if isinstance(qp, dict):
+        for k, v in qp.items():
+            if isinstance(v, (str, int, float)) and not isinstance(v, bool):
+                query[str(k)] = str(v)
     return method, query
 
 
-def top_resources(rows: list[dict[str, Any]], limit: int) -> list[dict[str, Any]]:
-    """The ``limit`` busiest resources with a usable http(s) URL."""
+def _has_path_template(url: str) -> bool:
+    """True if the URL path still carries an unsubstituted parameter
+    (``/:id``, ``/{id}``, or its percent-encoded ``%7B`` form) — such a resource
+    can't be fetched as-is and would only produce a spurious 404 in a survey."""
+    path = urlsplit(url).path
+    return (":" in path or "{" in path or "}" in path
+            or "%7B" in path.upper() or "%7D" in path.upper())
+
+
+def top_resources(rows: list[dict[str, Any]], limit: int,
+                  per_host: bool = False) -> list[dict[str, Any]]:
+    """The ``limit`` busiest resources with a usable, directly-fetchable
+    http(s) URL (templated paths like ``/v1/op/:name`` are skipped).
+
+    With ``per_host=True`` collapse the list to one row per host (the busiest
+    resource on that host), so a survey covers ``limit`` distinct services
+    instead of ``limit`` paths that may all sit behind one deployment.
+    """
     usable = [r for r in rows
               if isinstance(r["resource"], str)
-              and r["resource"].startswith(("http://", "https://"))]
+              and r["resource"].startswith(("http://", "https://"))
+              and not _has_path_template(r["resource"])]
     usable.sort(key=lambda r: (r["calls_30d"] or 0, r["payers_30d"] or 0), reverse=True)
+    if per_host:
+        seen: set[str] = set()
+        deduped: list[dict[str, Any]] = []
+        for r in usable:
+            host = urlsplit(r["resource"]).netloc.lower()
+            if host in seen:
+                continue
+            seen.add(host)
+            deduped.append(r)
+        usable = deduped
     return usable[:limit]

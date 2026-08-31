@@ -132,6 +132,43 @@ def _get_json(url: str, timeout: float) -> object:
         raise X402LintError(f"{url} did not return JSON: {e}")
 
 
+def _get_catalogue_doc(url: str, timeout: float, max_items: int = 20000) -> dict:
+    """Fetch a discovery catalogue, following ``offset``/``limit`` pagination.
+
+    The CDP catalogue caps a page at 1000 rows and reports progress in a
+    ``{"pagination": {"limit", "offset", "total"}}`` block; without this we only
+    ever saw the first page (~1000 of 14k+ resources). A catalogue that returns
+    everything in one unpaginated document still works — we stop as soon as a
+    page is short or carries no pagination block.
+    """
+    parsed = urllib.parse.urlparse(url)
+    base_q = dict(urllib.parse.parse_qsl(parsed.query))
+    page_size = int(base_q.get("limit") or 1000)
+    offset = int(base_q.get("offset") or 0)
+    items: list = []
+    total: int | None = None
+    while len(items) < max_items:
+        q = dict(base_q, limit=str(page_size), offset=str(offset))
+        page_url = urllib.parse.urlunparse(
+            parsed._replace(query=urllib.parse.urlencode(q)))
+        doc = _get_json(page_url, timeout)
+        if not isinstance(doc, dict):
+            raise X402LintError("discovery catalogue is not a JSON object")
+        page = doc.get("items")
+        if not isinstance(page, list):
+            raise X402LintError("discovery catalogue has no 'items' array")
+        items.extend(page)
+        pg = doc.get("pagination")
+        if not isinstance(pg, dict):
+            break
+        if isinstance(pg.get("total"), int):
+            total = pg["total"]
+        if not page or (total is not None and offset + len(page) >= total):
+            break
+        offset += len(page)
+    return {"items": items, "pagination": {"total": total, "fetched": len(items)}}
+
+
 def cmd_facilitator(args: argparse.Namespace) -> int:
     url = supported_url(args.url)
     try:
@@ -163,11 +200,11 @@ def cmd_facilitator(args: argparse.Namespace) -> int:
 
 def cmd_survey(args: argparse.Namespace) -> int:
     try:
-        rows = parse_catalogue(_get_json(args.catalogue, args.timeout))
+        rows = parse_catalogue(_get_catalogue_doc(args.catalogue, args.timeout))
     except X402LintError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
-    targets = top_resources(rows, args.limit)
+    targets = top_resources(rows, args.limit, per_host=args.per_host)
     if not targets:
         print("error: no usable http(s) resources in the catalogue", file=sys.stderr)
         return 2
@@ -434,6 +471,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("catalogue", nargs="?", default=DEFAULT_CATALOGUE,
                    help=f"discovery catalogue URL (default: {DEFAULT_CATALOGUE})")
     s.add_argument("--limit", type=int, default=10, help="how many top endpoints to check")
+    s.add_argument("--per-host", action="store_true",
+                   help="one row per host (busiest path), not per resource path")
     s.add_argument("--no-hints", action="store_true",
                    help="ignore the bazaar input method/params; plain GET each resource")
     s.add_argument("--timeout", type=float, default=10.0)

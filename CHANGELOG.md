@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.4
+
+- `survey` now **paginates the discovery catalogue**. The CDP catalogue caps a
+  page at 1000 rows and reports `{pagination: {offset, limit, total}}`; the old
+  single fetch only ever saw the first ~1000 of 14k+ resources, so `--limit N`
+  ranked within an arbitrary slice. It now follows pagination to completion
+  (unpaginated catalogues still work).
+- `survey --per-host` — collapse the target list to one row per host (its
+  busiest path) so a run covers N distinct services, not N paths behind one
+  deployment.
+- `survey` skips resources whose path still has an unsubstituted template
+  segment (`/:id`, `/{id}`) — they can't be fetched as-is and only produced
+  spurious 404s. Non-scalar `bazaar` `queryParams` example values (schema
+  objects) are likewise dropped instead of being urlencoded as a Python repr.
+- No library API changes to `check`/`decode`/`pay`/`roundtrip`.
+
 ## 0.4.3
 
 - Fix the composite **GitHub Action**: endpoint URLs with `&` query separators

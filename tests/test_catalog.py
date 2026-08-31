@@ -3,6 +3,7 @@ parsing. No network — every case reads tests/fixtures/reference/."""
 
 import json
 import pathlib
+import urllib.parse
 
 import pytest
 
@@ -129,3 +130,70 @@ def test_top_resources_skips_unusable_urls():
 def test_parse_catalogue_rejects_junk():
     with pytest.raises(X402LintError):
         parse_catalogue({"no_items": True})
+
+
+def test_top_resources_skips_templated_paths():
+    rows = [
+        {"resource": "https://a.example/v1/op/:name", "calls_30d": 999, "payers_30d": 9},
+        {"resource": "https://b.example/v1/{id}/x", "calls_30d": 888, "payers_30d": 8},
+        {"resource": "https://c.example/v1/fx?amount=%7B%27d%27%3A1%7D",
+         "calls_30d": 777, "payers_30d": 7},
+        {"resource": "https://d.example/ok", "calls_30d": 1, "payers_30d": 1},
+    ]
+    top = top_resources(rows, 10)
+    # the %7B is in the query, not the path -> d and c both survive; a and b don't
+    assert "https://d.example/ok" in [r["resource"] for r in top]
+    assert "https://a.example/v1/op/:name" not in [r["resource"] for r in top]
+    assert "https://b.example/v1/{id}/x" not in [r["resource"] for r in top]
+
+
+def test_bazaar_input_drops_non_scalar_query_values():
+    item = {"resource": "https://x/a", "extensions": {"bazaar": {"info": {"input": {
+        "method": "get",
+        "queryParams": {"symbol": "AAPL", "opts": {"default": 1, "type": "int"}},
+    }}}}}
+    rows = parse_catalogue({"items": [item]})
+    assert rows[0]["method"] == "GET"
+    assert rows[0]["query"] == {"symbol": "AAPL"}
+
+
+def test_top_resources_per_host_dedupes():
+    rows = [
+        {"resource": "https://a.example/x", "calls_30d": 100, "payers_30d": 1},
+        {"resource": "https://a.example/y", "calls_30d": 90, "payers_30d": 1},
+        {"resource": "https://b.example/z", "calls_30d": 50, "payers_30d": 1},
+    ]
+    top = top_resources(rows, 10, per_host=True)
+    assert [r["resource"] for r in top] == ["https://a.example/x", "https://b.example/z"]
+
+
+# --- _get_catalogue_doc pagination ----------------------------------
+
+def test_get_catalogue_doc_follows_pagination(monkeypatch):
+    from x402lint import cli
+
+    pages = {
+        0: {"items": [{"resource": f"https://h{i}.example/a"} for i in range(1000)],
+            "pagination": {"limit": 1000, "offset": 0, "total": 1500}},
+        1000: {"items": [{"resource": f"https://h{i}.example/a"} for i in range(500)],
+               "pagination": {"limit": 1000, "offset": 1000, "total": 1500}},
+    }
+
+    def fake_get_json(url, timeout):
+        q = dict(urllib.parse.parse_qsl(urllib.parse.urlparse(url).query))
+        return pages[int(q["offset"])]
+
+    monkeypatch.setattr(cli, "_get_json", fake_get_json)
+    doc = cli._get_catalogue_doc("https://cat.example/resources", 5.0)
+    assert len(doc["items"]) == 1500
+    assert doc["pagination"]["total"] == 1500
+
+
+def test_get_catalogue_doc_unpaginated(monkeypatch):
+    from x402lint import cli
+
+    monkeypatch.setattr(
+        cli, "_get_json",
+        lambda url, timeout: {"items": [{"resource": "https://x/a"}]})
+    doc = cli._get_catalogue_doc("https://cat.example/resources", 5.0)
+    assert len(doc["items"]) == 1
