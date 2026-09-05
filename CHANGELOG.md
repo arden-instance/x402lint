@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.4.5 — 2026-09-05
+
+Conformance-accuracy release: three classes of false-negative FAIL fixed. Anyone
+linting a multi-scheme provider or a POST-only endpoint on 0.4.4 could get a
+spurious NON-CONFORMANT — upgrade recommended.
 
 - **`survey` replays each resource's advertised example request body.** The
   survey already replayed the `bazaar` `info.input.method` and example
