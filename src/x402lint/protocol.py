@@ -40,6 +40,15 @@ KNOWN_V1_NETWORKS = {
 _EVM_ADDR = re.compile(r"^0x[0-9a-fA-F]{40}$")
 _CAIP2 = re.compile(r"^[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}$")
 _UINT = re.compile(r"^(0|[1-9][0-9]*)$")
+_DECIMAL = re.compile(r"^[0-9]+(\.[0-9]+)?$")
+
+# Schemes that settle on an EVM chain under the base spec's strict rules
+# (integer atomic-unit ``amount``, on-chain ``asset``/``payTo`` addresses,
+# ``maxTimeoutSeconds``). Newer schemes — ``agent-pay`` (AWS), ``alipay:a2m``,
+# ``nvm:*`` (Nevermined), fiat ``iso4217:`` assets — legitimately use decimal
+# amounts, URNs / quote tokens for ``payTo``, and carry terms elsewhere; the
+# EVM-shaped expectations drop to WARN for them.
+_EVM_SETTLEMENT_SCHEMES = {None, "exact", "upto", "batch-settlement"}
 
 
 class X402LintError(Exception):
@@ -181,14 +190,25 @@ def _check_accepts_entry(i: int, entry: Any, version: str, checked_host: str,
         return
 
     amount_key = "amount" if version == "2" else "maxAmountRequired"
-    required = ["scheme", "network", amount_key, "asset", "payTo", "maxTimeoutSeconds"]
-    missing = [k for k in required if k not in entry]
-    if missing:
-        report.add(f"{tag}.required", FAIL, f"missing fields: {', '.join(missing)}")
+    scheme = entry.get("scheme")
+    net = entry.get("network")
+    fam = _network_family(net)
+    # EVM settlement schemes are held to the strict spec rules; alt schemes get
+    # WARN for the EVM-shaped expectations (see _EVM_SETTLEMENT_SCHEMES).
+    evm_settlement = fam == "eip155" and scheme in _EVM_SETTLEMENT_SCHEMES
+    alt_level = FAIL if evm_settlement else WARN
+
+    missing_core = [k for k in ("scheme", "network", amount_key) if k not in entry]
+    missing_evm = [k for k in ("asset", "payTo", "maxTimeoutSeconds") if k not in entry]
+    if missing_core:
+        report.add(f"{tag}.required", FAIL, f"missing fields: {', '.join(missing_core)}")
+    elif missing_evm:
+        note = "" if evm_settlement else f" (EVM-scheme fields; may not apply to {scheme!r})"
+        report.add(f"{tag}.required", alt_level,
+                   f"missing fields: {', '.join(missing_evm)}{note}")
     else:
         report.add(f"{tag}.required", PASS, "all required fields present")
 
-    scheme = entry.get("scheme")
     if scheme in KNOWN_SCHEMES:
         report.add(f"{tag}.scheme", PASS, f"{scheme!r}")
     elif isinstance(scheme, str) and scheme:
@@ -196,7 +216,6 @@ def _check_accepts_entry(i: int, entry: Any, version: str, checked_host: str,
     else:
         report.add(f"{tag}.scheme", FAIL, "scheme missing or not a string")
 
-    net = entry.get("network")
     if version == "2":
         if isinstance(net, str) and _CAIP2.match(net):
             report.add(f"{tag}.network", PASS, f"{net} (CAIP-2)")
@@ -214,31 +233,36 @@ def _check_accepts_entry(i: int, entry: Any, version: str, checked_host: str,
     amt = entry.get(amount_key)
     if isinstance(amt, str) and _UINT.match(amt) and amt != "0":
         report.add(f"{tag}.{amount_key}", PASS, f"{amt} atomic units")
+    elif not evm_settlement and isinstance(amt, str) and _DECIMAL.match(amt) and float(amt) > 0:
+        report.add(f"{tag}.{amount_key}", WARN,
+                   f"non-integer amount {amt!r}; base spec expects integer atomic units "
+                   f"— decimals may be valid for scheme {scheme!r} on {net!r}")
     else:
-        report.add(f"{tag}.{amount_key}", FAIL,
+        report.add(f"{tag}.{amount_key}", alt_level,
                    f"{amount_key!r} must be a base-10 string of a positive integer, got {amt!r}")
 
-    fam = _network_family(net)
     for addr_key in ("asset", "payTo"):
         val = entry.get(addr_key)
         if fam == "eip155":
             if isinstance(val, str) and _EVM_ADDR.match(val):
                 report.add(f"{tag}.{addr_key}", PASS, "valid EVM address")
             else:
-                report.add(f"{tag}.{addr_key}", FAIL,
+                report.add(f"{tag}.{addr_key}", alt_level,
                            f"{addr_key!r} is not a 0x + 40 hex EVM address: {val!r}")
         else:
             if isinstance(val, str) and val:
                 report.add(f"{tag}.{addr_key}", INFO,
                            f"{val} (address format not checked for {fam or 'unknown'} networks)")
             else:
-                report.add(f"{tag}.{addr_key}", FAIL, f"{addr_key!r} missing or empty")
+                report.add(f"{tag}.{addr_key}", alt_level, f"{addr_key!r} missing or empty")
 
     to = entry.get("maxTimeoutSeconds")
     if isinstance(to, (int, float)) and not isinstance(to, bool) and to > 0:
         report.add(f"{tag}.maxTimeoutSeconds", PASS, f"{to}")
+    elif to is None and not evm_settlement:
+        pass  # already covered by the .required check at alt_level
     else:
-        report.add(f"{tag}.maxTimeoutSeconds", FAIL,
+        report.add(f"{tag}.maxTimeoutSeconds", alt_level,
                    f"must be a positive number, got {to!r}")
 
     if scheme == "exact" and fam == "eip155":

@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **Scheme-aware `accepts[]` validation.** The strict base-spec rules — integer
+  atomic-unit `amount`, on-chain `asset`/`payTo` addresses, `maxTimeoutSeconds`
+  — are defined for the EVM settlement schemes (`exact`/`upto`/`batch-settlement`
+  on `eip155:*`). Newer schemes seen live — `agent-pay` (AWS, `iso4217:` fiat
+  assets + decimal amounts + `urn:` payTo), `alipay:a2m`, `nvm:erc4337`, and
+  `exact` on non-EVM ledgers (XRPL RLUSD uses decimal amounts) — were being
+  hard-FAILed against EVM assumptions, so multi-scheme providers that also offer
+  a perfectly valid `exact`/USDC option (e.g. `x402.tavily.com`,
+  `gridpulse.theaslangroupllc.com`) showed up NON-CONFORMANT. Those EVM-shaped
+  expectations now emit WARN for non-EVM-`exact` entries; `scheme`, `network`
+  and `amount` remain hard-required on every entry per the spec. Net effect:
+  fewer false negatives on the leaderboard, genuine bugs (missing `amount`,
+  auth-before-payment 400s, bad EVM addresses on `exact` offers) still FAIL.
 - Tests: added `test_spec_examples.py` — asserts the linter grades the x402
   Foundation spec's own canonical `402` examples (`specs/transports-v{1,2}/http.md`)
   with zero FAIL/WARN findings. A conformance checker that fails the spec's own

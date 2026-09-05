@@ -139,6 +139,65 @@ def test_no_challenge_at_all_fails():
     assert any(c.id == "format" and c.level == FAIL for c in report.checks)
 
 
+# --- alt (non-EVM-`exact`) payment schemes: EVM-shaped rules drop to WARN ---
+
+def test_agent_pay_decimal_amount_warns_not_fails():
+    """AWS 'agent-pay' offer with a fiat iso4217 asset + decimal amount + URN
+    payTo is not an EVM-`exact` violation — it should warn, not fail, so the
+    endpoint (which also offers a valid `exact` option) stays conformant."""
+    alt = {
+        "scheme": "agent-pay", "network": "aws:base", "amount": "0.016",
+        "asset": "iso4217:USD", "payTo": "urn:x402:agent-pay:see-quote",
+        "maxTimeoutSeconds": 300,
+    }
+    doc = {"x402Version": 2, "error": "e", "accepts": [GOOD_ENTRY, alt]}
+    report = lint_response("https://ex.com/a", 402, _v2_header(doc), b"")
+    assert not report.failed
+    assert any(c.id == "accepts[1].amount" and c.level == WARN for c in report.checks)
+
+
+def test_exact_scheme_on_non_evm_ledger_decimal_amount_warns():
+    """`exact` on XRPL (RLUSD) legitimately uses a decimal amount."""
+    xrpl = {
+        "scheme": "exact", "network": "xrpl:0", "amount": "0.01",
+        "asset": "524C555344000000000000000000000000000000",
+        "payTo": "rMnHeutYALco8RYFVcmuU4BCgSzBpPEh32", "maxTimeoutSeconds": 300,
+    }
+    doc = {"x402Version": 2, "error": "e", "accepts": [xrpl]}
+    report = lint_response("https://ex.com/a", 402, _v2_header(doc), b"")
+    assert not report.failed
+    assert any(c.id == "accepts[0].amount" and c.level == WARN for c in report.checks)
+
+
+def test_alt_scheme_missing_evm_fields_warns_not_fails():
+    alipay = {
+        "scheme": "alipay:a2m", "network": "alipay", "amount": "100",
+        "maxTimeoutSeconds": 300,
+    }
+    doc = {"x402Version": 2, "error": "e", "accepts": [alipay]}
+    report = lint_response("https://ex.com/a", 402, _v2_header(doc), b"")
+    assert not report.failed
+    assert any(c.id == "accepts[0].required" and c.level == WARN for c in report.checks)
+
+
+def test_alt_scheme_still_fails_on_missing_core_amount():
+    """`amount` is spec-required on every entry — its absence fails even for an
+    unknown scheme."""
+    broken = {"scheme": "nvm:erc4337", "network": "eip155:8453"}
+    doc = {"x402Version": 2, "error": "e", "accepts": [broken]}
+    report = lint_response("https://ex.com/a", 402, _v2_header(doc), b"")
+    assert report.failed
+    assert any(c.id == "accepts[0].required" and c.level == FAIL for c in report.checks)
+
+
+def test_evm_exact_decimal_amount_still_fails():
+    """Regression guard: the strict integer rule still applies to `exact`/EVM."""
+    bad = dict(GOOD_ENTRY, amount="0.5")
+    doc = {"x402Version": 2, "error": "e", "accepts": [bad]}
+    report = lint_response("https://ex.com/a", 402, _v2_header(doc), b"")
+    assert any(c.id == "accepts[0].amount" and c.level == FAIL for c in report.checks)
+
+
 def test_v1_body_format_detected_and_linted():
     doc = {
         "x402Version": 1,
