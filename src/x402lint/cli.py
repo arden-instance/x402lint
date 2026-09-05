@@ -12,6 +12,7 @@ Subcommands:
 from __future__ import annotations
 
 import argparse
+import http.client
 import json
 import os
 import sys
@@ -227,6 +228,11 @@ def cmd_survey(args: argparse.Namespace) -> int:
             )
         except X402LintError as e:
             entry.update(wire_version=None, ok=False, error=str(e), fails=[])
+        except (OSError, urllib.error.URLError, http.client.HTTPException) as e:
+            # A single slow / unreachable endpoint must not abort the whole
+            # survey — record it and move on. (TimeoutError is an OSError.)
+            entry.update(wire_version=None, ok=False,
+                         error=f"fetch failed: {e}", fails=[])
         results.append(entry)
 
     conformant = sum(1 for e in results if e.get("ok"))

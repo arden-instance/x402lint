@@ -1,11 +1,11 @@
 {
   "n": 150,
-  "conformant": 142,
+  "conformant": 144,
   "results": [
     {
       "resource": "https://stableenrich.dev/api/exa/search",
       "method": "POST",
-      "calls_30d": 41953,
+      "calls_30d": 41597,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -19,7 +19,7 @@
     {
       "resource": "https://x402.twit.sh/tweets/search?from=elonmusk&minLikes=100&words=bitcoin",
       "method": "GET",
-      "calls_30d": 9141,
+      "calls_30d": 9128,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -33,7 +33,7 @@
     {
       "resource": "https://x402.sniperx.fun/api/v1/token/activities/smarttraders_smartmoney?limit=1&page=1&token_address=example_token_address",
       "method": "GET",
-      "calls_30d": 6191,
+      "calls_30d": 6388,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -47,7 +47,7 @@
     {
       "resource": "https://api.exa.ai/search",
       "method": "POST",
-      "calls_30d": 5822,
+      "calls_30d": 5825,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -61,7 +61,7 @@
     {
       "resource": "https://stabletravel.dev/api/seats-aero/search?cabin=business&destination_airport=FRA%2CLHR&end_date=2026-12-15&origin_airport=SFO&start_date=2026-12-01&take=25",
       "method": "GET",
-      "calls_30d": 5107,
+      "calls_30d": 5120,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -89,7 +89,7 @@
     {
       "resource": "https://win.oneshotagent.com/v1/tools/verify/email",
       "method": "POST",
-      "calls_30d": 4277,
+      "calls_30d": 4331,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -117,7 +117,7 @@
     {
       "resource": "https://api.deepnets.ai/api/token-safety?mint=DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
       "method": "GET",
-      "calls_30d": 3039,
+      "calls_30d": 2993,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -131,7 +131,7 @@
     {
       "resource": "https://x402.ottoai.services/tweet-search?query=%24BTC",
       "method": "GET",
-      "calls_30d": 2519,
+      "calls_30d": 2509,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -145,7 +145,7 @@
     {
       "resource": "https://blockrun.ai/api/v1/exa/search",
       "method": "POST",
-      "calls_30d": 2173,
+      "calls_30d": 2066,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -159,7 +159,7 @@
     {
       "resource": "https://kronossignals.com/api/v1/liquidations/btc",
       "method": "GET",
-      "calls_30d": 2137,
+      "calls_30d": 2061,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -173,7 +173,7 @@
     {
       "resource": "https://api.strale.io/x402/email-validate",
       "method": "GET",
-      "calls_30d": 1906,
+      "calls_30d": 1879,
       "wire_version": "1",
       "ok": true,
       "counts": {
@@ -187,42 +187,32 @@
     {
       "resource": "https://token4u.ai/v1/chat/completions",
       "method": "POST",
-      "calls_30d": 1824,
+      "calls_30d": 1810,
       "wire_version": "2",
       "ok": false,
       "counts": {
         "PASS": 22,
-        "WARN": 3,
-        "FAIL": 9,
+        "WARN": 10,
+        "FAIL": 1,
         "INFO": 2
       },
       "fails": [
-        "accepts[2].required: missing fields: amount, asset, payTo, maxTimeoutSeconds",
-        "accepts[2].amount: 'amount' must be a base-10 string of a positive integer, got None",
-        "accepts[2].asset: 'asset' is not a 0x + 40 hex EVM address: None",
-        "accepts[2].payTo: 'payTo' is not a 0x + 40 hex EVM address: None",
-        "accepts[2].maxTimeoutSeconds: must be a positive number, got None",
-        "accepts[3].required: missing fields: asset, payTo",
-        "accepts[3].amount: 'amount' must be a base-10 string of a positive integer, got '0.00'",
-        "accepts[3].asset: 'asset' missing or empty",
-        "accepts[3].payTo: 'payTo' missing or empty"
+        "accepts[2].required: missing fields: amount"
       ]
     },
     {
       "resource": "https://x402.tavily.com/search",
       "method": "POST",
-      "calls_30d": 1794,
+      "calls_30d": 1774,
       "wire_version": "2",
-      "ok": false,
+      "ok": true,
       "counts": {
         "PASS": 17,
-        "WARN": 1,
-        "FAIL": 1,
+        "WARN": 2,
+        "FAIL": 0,
         "INFO": 4
       },
-      "fails": [
-        "accepts[1].amount: 'amount' must be a base-10 string of a positive integer, got '0.016'"
-      ]
+      "fails": []
     },
     {
       "resource": "https://api.kadec0.xyz/v1/serp?num_results=10&q=best+python+web+scraping+library",
@@ -241,7 +231,7 @@
     {
       "resource": "https://api.nansen.ai/api/v1/profiler/address/current-balance",
       "method": "POST",
-      "calls_30d": 1507,
+      "calls_30d": 1509,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -255,7 +245,7 @@
     {
       "resource": "https://google-trends.use.x402atlas.com/trend?keyword=bitcoin",
       "method": "GET",
-      "calls_30d": 1355,
+      "calls_30d": 1352,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -269,7 +259,7 @@
     {
       "resource": "https://api.loyalspark.online/x402-gateway/recipient-api/offers?token_address=0x0000000000000000000000000000000000000001",
       "method": "GET",
-      "calls_30d": 1320,
+      "calls_30d": 1310,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -283,7 +273,7 @@
     {
       "resource": "https://api.onesource.io/api/chain/block-number?network=ethereum",
       "method": "GET",
-      "calls_30d": 1291,
+      "calls_30d": 1268,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -297,7 +287,7 @@
     {
       "resource": "https://x402-api.aubr.ai/api/chat/encrypted",
       "method": "POST",
-      "calls_30d": 749,
+      "calls_30d": 756,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -309,23 +299,9 @@
       "fails": []
     },
     {
-      "resource": "https://stockwaves.net/api/xstock/health",
-      "method": "GET",
-      "calls_30d": 746,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 19,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 4
-      },
-      "fails": []
-    },
-    {
       "resource": "https://api.geoprimitives.dev/v1/marine/depth?lat=57.0405&lon=-135.3421",
       "method": "GET",
-      "calls_30d": 743,
+      "calls_30d": 744,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -333,6 +309,20 @@
         "WARN": 0,
         "FAIL": 0,
         "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stockwaves.net/api/xstock/health",
+      "method": "GET",
+      "calls_30d": 729,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
       },
       "fails": []
     },
@@ -347,20 +337,6 @@
         "WARN": 0,
         "FAIL": 0,
         "INFO": 2
-      },
-      "fails": []
-    },
-    {
-      "resource": "https://x402engine.app/api/crypto/price?currencies=usd%2Ceur&ids=bitcoin%2Cethereum",
-      "method": "GET",
-      "calls_30d": 599,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 27,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 4
       },
       "fails": []
     },
@@ -409,7 +385,7 @@
     {
       "resource": "https://tick.hugen.tokyo/tick/latest?symbol=EURUSD",
       "method": "GET",
-      "calls_30d": 548,
+      "calls_30d": 551,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -421,9 +397,23 @@
       "fails": []
     },
     {
+      "resource": "https://x402engine.app/api/crypto/price?currencies=usd%2Ceur&ids=bitcoin%2Cethereum",
+      "method": "GET",
+      "calls_30d": 551,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
       "resource": "https://www.x402scan.com/api/x402/merchants",
       "method": "GET",
-      "calls_30d": 542,
+      "calls_30d": 541,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -437,7 +427,7 @@
     {
       "resource": "https://svm402.com/analyze",
       "method": "POST",
-      "calls_30d": 529,
+      "calls_30d": 537,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -465,7 +455,7 @@
     {
       "resource": "https://vibesprings.net/api/price/btc-usd",
       "method": "GET",
-      "calls_30d": 485,
+      "calls_30d": 486,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -477,9 +467,9 @@
       "fails": []
     },
     {
-      "resource": "https://2s.io/api/stocks/insider-sentiment?ticker=AAPL",
+      "resource": "https://crypto.apitoll.cloud/v1/crypto/price?coins=BTC%2CETH%2CSOL",
       "method": "GET",
-      "calls_30d": 462,
+      "calls_30d": 452,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -491,9 +481,9 @@
       "fails": []
     },
     {
-      "resource": "https://crypto.apitoll.cloud/v1/crypto/price?coins=BTC%2CETH%2CSOL",
+      "resource": "https://2s.io/api/stocks/insider-sentiment?ticker=AAPL",
       "method": "GET",
-      "calls_30d": 451,
+      "calls_30d": 448,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -549,7 +539,7 @@
     {
       "resource": "https://api.myceliasignal.com/oracle/price/btc/usd",
       "method": "GET",
-      "calls_30d": 317,
+      "calls_30d": 315,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -578,20 +568,6 @@
       ]
     },
     {
-      "resource": "https://api.printmoneylab.com/api/v1/kimchi-premium?symbol=BTC",
-      "method": "GET",
-      "calls_30d": 292,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 27,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 4
-      },
-      "fails": []
-    },
-    {
       "resource": "https://api.arkm.com/x402/intelligence/address",
       "method": "POST",
       "calls_30d": 290,
@@ -600,6 +576,20 @@
       "counts": {
         "PASS": 18,
         "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.printmoneylab.com/api/v1/kimchi-premium?symbol=BTC",
+      "method": "GET",
+      "calls_30d": 287,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
         "FAIL": 0,
         "INFO": 4
       },
@@ -649,6 +639,20 @@
         "status: expected HTTP 402, got 400",
         "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
       ]
+    },
+    {
+      "resource": "https://x402.orthogonal.com/baseten/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 261,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
     },
     {
       "resource": "https://openrelay.hggfffdfy687.workers.dev/v1/premium/chat/completions",
@@ -749,9 +753,23 @@
       "fails": []
     },
     {
+      "resource": "https://stableupload.dev/api/upload",
+      "method": "POST",
+      "calls_30d": 218,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
       "resource": "https://x402.shizu.me/crypto?pair=BTC-USD",
       "method": "GET",
-      "calls_30d": 218,
+      "calls_30d": 216,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -765,7 +783,7 @@
     {
       "resource": "https://human.twin3.ai/v1/human?check=telegram%2Capple&include=verified_at%2Cdimensions_filled&match=age%3A25-34%2Cinterest%3Atravel%2Cincome%3A200-500%2B&min_score=70&wallet=0x1234567890123456789012345678901234567890",
       "method": "GET",
-      "calls_30d": 218,
+      "calls_30d": 216,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -773,20 +791,6 @@
         "WARN": 0,
         "FAIL": 0,
         "INFO": 2
-      },
-      "fails": []
-    },
-    {
-      "resource": "https://stableupload.dev/api/upload",
-      "method": "POST",
-      "calls_30d": 217,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 18,
-        "WARN": 1,
-        "FAIL": 0,
-        "INFO": 4
       },
       "fails": []
     },
@@ -917,20 +921,6 @@
       "fails": []
     },
     {
-      "resource": "https://chat.gedx402.com/v1/chat/completions",
-      "method": "POST",
-      "calls_30d": 182,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 14,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 2
-      },
-      "fails": []
-    },
-    {
       "resource": "https://skim402.com/api/v1/read",
       "method": "POST",
       "calls_30d": 181,
@@ -945,23 +935,23 @@
       "fails": []
     },
     {
-      "resource": "https://options.lonestaroracle.xyz/flow?expiry=nearest&symbol=AAPL&ticker=AAPL",
-      "method": "GET",
-      "calls_30d": 177,
+      "resource": "https://chat.gedx402.com/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 180,
       "wire_version": "2",
       "ok": true,
       "counts": {
-        "PASS": 19,
+        "PASS": 14,
         "WARN": 0,
         "FAIL": 0,
-        "INFO": 4
+        "INFO": 2
       },
       "fails": []
     },
     {
-      "resource": "https://x402.ochinimus.app/api/liquidation-stats",
+      "resource": "https://options.lonestaroracle.xyz/flow?expiry=nearest&symbol=AAPL&ticker=AAPL",
       "method": "GET",
-      "calls_30d": 170,
+      "calls_30d": 171,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1001,9 +991,23 @@
       "fails": []
     },
     {
+      "resource": "https://x402.ochinimus.app/api/liquidation-stats",
+      "method": "GET",
+      "calls_30d": 164,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
       "resource": "https://x402wordoftheday.vercel.app/api/word-of-the-day",
       "method": "GET",
-      "calls_30d": 161,
+      "calls_30d": 160,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1017,7 +1021,7 @@
     {
       "resource": "https://x402.telnyx.com/v1/chat/completions",
       "method": "POST",
-      "calls_30d": 160,
+      "calls_30d": 158,
       "wire_version": null,
       "ok": false,
       "counts": {
@@ -1030,34 +1034,6 @@
         "status: expected HTTP 402, got 400",
         "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
       ]
-    },
-    {
-      "resource": "https://roastx402endpoint.vercel.app/api/roast",
-      "method": "GET",
-      "calls_30d": 156,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 14,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 2
-      },
-      "fails": []
-    },
-    {
-      "resource": "https://randomfactsx402.vercel.app/api/random-fact",
-      "method": "GET",
-      "calls_30d": 153,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 14,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 2
-      },
-      "fails": []
     },
     {
       "resource": "https://readx.sh/api/search/tweets",
@@ -1090,7 +1066,7 @@
     {
       "resource": "https://cryptyx.ai/api/asset/asymmetry?symbol=",
       "method": "GET",
-      "calls_30d": 145,
+      "calls_30d": 146,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1104,7 +1080,7 @@
     {
       "resource": "https://stablestudio.dev/api/upload",
       "method": "POST",
-      "calls_30d": 141,
+      "calls_30d": 142,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1116,9 +1092,23 @@
       "fails": []
     },
     {
-      "resource": "https://regimeshift.xyz/api/v1/asset/btc/vrp",
+      "resource": "https://roastx402endpoint.vercel.app/api/roast",
       "method": "GET",
-      "calls_30d": 138,
+      "calls_30d": 137,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://randomfactsx402.vercel.app/api/random-fact",
+      "method": "GET",
+      "calls_30d": 137,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1131,6 +1121,20 @@
     },
     {
       "resource": "https://402timezones.vercel.app/api/convert-timezone?from=America%2FNew_York&time=2026-07-04T15%3A30&to=Asia%2FTokyo",
+      "method": "GET",
+      "calls_30d": 133,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://regimeshift.xyz/api/v1/asset/btc/vrp",
       "method": "GET",
       "calls_30d": 133,
       "wire_version": "2",
@@ -1217,20 +1221,6 @@
       "fails": []
     },
     {
-      "resource": "https://weight402endpoint.vercel.app/api/convert-weight",
-      "method": "GET",
-      "calls_30d": 125,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 14,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 2
-      },
-      "fails": []
-    },
-    {
       "resource": "https://jokes-endpoint.vercel.app/api/jokes",
       "method": "GET",
       "calls_30d": 122,
@@ -1245,16 +1235,16 @@
       "fails": []
     },
     {
-      "resource": "https://api.vindexapi.dev/v1/decode?vin=1FTFW1ET5DFC10312",
+      "resource": "https://websearch.use.x402atlas.com/search?chunks_per_source=2&query=latest+developments+in+AI+agents&search_depth=fast",
       "method": "GET",
-      "calls_30d": 118,
+      "calls_30d": 122,
       "wire_version": "2",
       "ok": true,
       "counts": {
-        "PASS": 14,
+        "PASS": 35,
         "WARN": 0,
         "FAIL": 0,
-        "INFO": 2
+        "INFO": 4
       },
       "fails": []
     },
@@ -1273,6 +1263,20 @@
       "fails": []
     },
     {
+      "resource": "https://api.vindexapi.dev/v1/decode?vin=1FTFW1ET5DFC10312",
+      "method": "GET",
+      "calls_30d": 116,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
       "resource": "https://api.oblique.markets/api/v1/paid/time",
       "method": "GET",
       "calls_30d": 113,
@@ -1280,20 +1284,6 @@
       "ok": true,
       "counts": {
         "PASS": 19,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 4
-      },
-      "fails": []
-    },
-    {
-      "resource": "https://websearch.use.x402atlas.com/search?chunks_per_source=2&query=latest+developments+in+AI+agents&search_depth=fast",
-      "method": "GET",
-      "calls_30d": 113,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 35,
         "WARN": 0,
         "FAIL": 0,
         "INFO": 4
@@ -1346,6 +1336,20 @@
       "resource": "https://vape-x402.vapex402.workers.dev/data/chain_overview?chain=Base",
       "method": "GET",
       "calls_30d": 109,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://weight402endpoint.vercel.app/api/convert-weight",
+      "method": "GET",
+      "calls_30d": 108,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1485,7 +1489,7 @@
     {
       "resource": "https://omniguchi.0000402.xyz/care/pack",
       "method": "POST",
-      "calls_30d": 86,
+      "calls_30d": 87,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1581,20 +1585,6 @@
       "fails": []
     },
     {
-      "resource": "https://api.orcatrace.dev/v1/latest",
-      "method": "GET",
-      "calls_30d": 75,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 14,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 2
-      },
-      "fails": []
-    },
-    {
       "resource": "https://x402-gateway-production.up.railway.app/api/image/text",
       "method": "POST",
       "calls_30d": 75,
@@ -1609,9 +1599,23 @@
       "fails": []
     },
     {
+      "resource": "https://api.orcatrace.dev/v1/latest",
+      "method": "GET",
+      "calls_30d": 74,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
       "resource": "https://edgar.apitoll.cloud/v1/edgar/filings?form=10-K&limit=5&ticker=AAPL",
       "method": "GET",
-      "calls_30d": 73,
+      "calls_30d": 72,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1625,7 +1629,7 @@
     {
       "resource": "https://api.signalis.dev/v1/pulse/narratives",
       "method": "GET",
-      "calls_30d": 73,
+      "calls_30d": 72,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1707,20 +1711,6 @@
       "fails": []
     },
     {
-      "resource": "https://gas.apitoll.cloud/v1/base/gas?blocks=20",
-      "method": "GET",
-      "calls_30d": 68,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 14,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 2
-      },
-      "fails": []
-    },
-    {
       "resource": "https://api.xfuel.app/v1/chat/completions",
       "method": "POST",
       "calls_30d": 67,
@@ -1731,6 +1721,20 @@
         "WARN": 0,
         "FAIL": 0,
         "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://gas.apitoll.cloud/v1/base/gas?blocks=20",
+      "method": "GET",
+      "calls_30d": 66,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
       },
       "fails": []
     },
@@ -1759,6 +1763,20 @@
         "WARN": 0,
         "FAIL": 0,
         "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://quotient-api-gateway.onrender.com/api/v1/signals?min_capacity_usd=500&min_conviction=2&side=NO&status=active",
+      "method": "GET",
+      "calls_30d": 63,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
       },
       "fails": []
     },
@@ -1819,20 +1837,6 @@
       "fails": []
     },
     {
-      "resource": "https://evm-gas.apitoll.cloud/v1/evm/gas?blocks=20&chain=ethereum",
-      "method": "GET",
-      "calls_30d": 60,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 14,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 2
-      },
-      "fails": []
-    },
-    {
       "resource": "https://api.sirenic.eu/v1/recherche?q=danone",
       "method": "GET",
       "calls_30d": 60,
@@ -1875,50 +1879,6 @@
       "fails": []
     },
     {
-      "resource": "https://gridpulse.theaslangroupllc.com/api/energy/carbon-intensity?hours=24&region=DE",
-      "method": "GET",
-      "calls_30d": 59,
-      "wire_version": "2",
-      "ok": false,
-      "counts": {
-        "PASS": 96,
-        "WARN": 1,
-        "FAIL": 1,
-        "INFO": 10
-      },
-      "fails": [
-        "accepts[11].amount: 'amount' must be a base-10 string of a positive integer, got '0.01'"
-      ]
-    },
-    {
-      "resource": "https://store.agentexchange.work/crypto/prices?coins=BTC%2CETH%2CSOL",
-      "method": "GET",
-      "calls_30d": 59,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 19,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 4
-      },
-      "fails": []
-    },
-    {
-      "resource": "https://apexrunner.ai/signals/btc-price-tick",
-      "method": "GET",
-      "calls_30d": 59,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 14,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 2
-      },
-      "fails": []
-    },
-    {
       "resource": "https://agents.driftflight.com/v1/images/generate",
       "method": "POST",
       "calls_30d": 59,
@@ -1933,16 +1893,16 @@
       "fails": []
     },
     {
-      "resource": "https://x402.orthogonal.com/fiber/v1/validate-phone/single",
-      "method": "POST",
-      "calls_30d": 59,
+      "resource": "https://evm-gas.apitoll.cloud/v1/evm/gas?blocks=20&chain=ethereum",
+      "method": "GET",
+      "calls_30d": 58,
       "wire_version": "2",
       "ok": true,
       "counts": {
-        "PASS": 27,
+        "PASS": 14,
         "WARN": 0,
         "FAIL": 0,
-        "INFO": 4
+        "INFO": 2
       },
       "fails": []
     },
@@ -1975,7 +1935,35 @@
       "fails": []
     },
     {
-      "resource": "https://quotient-api-gateway.onrender.com/api/v1/signals?min_capacity_usd=500&min_conviction=2&side=NO&status=active",
+      "resource": "https://gridpulse.theaslangroupllc.com/api/energy/carbon-intensity?hours=24&region=DE",
+      "method": "GET",
+      "calls_30d": 57,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 96,
+        "WARN": 2,
+        "FAIL": 0,
+        "INFO": 10
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://store.agentexchange.work/crypto/prices?coins=BTC%2CETH%2CSOL",
+      "method": "GET",
+      "calls_30d": 57,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://apexrunner.ai/signals/btc-price-tick",
       "method": "GET",
       "calls_30d": 57,
       "wire_version": "2",
@@ -1989,9 +1977,9 @@
       "fails": []
     },
     {
-      "resource": "https://weather.hugen.tokyo/weather/current?city=Tokyo",
+      "resource": "https://sanctions.nsgoods.org/screen?address=0x098B716B8Aaf21512996dC57EB0615e2383E2f96&chain=ethereum",
       "method": "GET",
-      "calls_30d": 56,
+      "calls_30d": 57,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -2034,13 +2022,13 @@
       "fails": []
     },
     {
-      "resource": "https://email-auth.use.x402atlas.com/check?domain=example.com&selector=google",
+      "resource": "https://weather.hugen.tokyo/weather/current?city=Tokyo",
       "method": "GET",
       "calls_30d": 54,
       "wire_version": "2",
       "ok": true,
       "counts": {
-        "PASS": 35,
+        "PASS": 19,
         "WARN": 0,
         "FAIL": 0,
         "INFO": 4
@@ -2058,20 +2046,6 @@
         "WARN": 0,
         "FAIL": 0,
         "INFO": 2
-      },
-      "fails": []
-    },
-    {
-      "resource": "https://diet.agentic-jp.com/members/search?q=%E9%88%B4%E6%9C%A8",
-      "method": "GET",
-      "calls_30d": 54,
-      "wire_version": "2",
-      "ok": true,
-      "counts": {
-        "PASS": 27,
-        "WARN": 0,
-        "FAIL": 0,
-        "INFO": 4
       },
       "fails": []
     },
@@ -2118,16 +2092,30 @@
       "fails": []
     },
     {
-      "resource": "https://api.interzoid.com/translatetoany?text=hello+world&to=Japanese",
+      "resource": "https://email-auth.use.x402atlas.com/check?domain=example.com&selector=google",
       "method": "GET",
-      "calls_30d": 53,
+      "calls_30d": 52,
       "wire_version": "2",
       "ok": true,
       "counts": {
-        "PASS": 14,
+        "PASS": 35,
         "WARN": 0,
         "FAIL": 0,
-        "INFO": 2
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://diet.agentic-jp.com/members/search?q=%E9%88%B4%E6%9C%A8",
+      "method": "GET",
+      "calls_30d": 52,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
       },
       "fails": []
     }

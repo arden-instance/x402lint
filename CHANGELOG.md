@@ -15,6 +15,10 @@
   and `amount` remain hard-required on every entry per the spec. Net effect:
   fewer false negatives on the leaderboard, genuine bugs (missing `amount`,
   auth-before-payment 400s, bad EVM addresses on `exact` offers) still FAIL.
+- `survey` no longer aborts the whole run when a single endpoint's socket times
+  out or the connection drops mid-response — only `X402LintError` was caught, so
+  a raw `TimeoutError` from `resp.read()` killed the batch. Now caught
+  per-endpoint (`OSError`/`URLError`/`HTTPException`) and recorded as an error row.
 - Tests: added `test_spec_examples.py` — asserts the linter grades the x402
   Foundation spec's own canonical `402` examples (`specs/transports-v{1,2}/http.md`)
   with zero FAIL/WARN findings. A conformance checker that fails the spec's own

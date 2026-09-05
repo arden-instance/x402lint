@@ -32,15 +32,24 @@ are listed under [Findings](#findings) with the exact field and fix.
 ## Latest snapshot — 2026-09-05
 
 Top 150 resources by 30-day call volume, deduplicated to **one row per host**
-(its busiest advertised path): **150 distinct hosts**, **142 / 150 conformant**
-(124 PASS, 18 WARN, 8 FAIL).
+(its busiest advertised path): **150 distinct hosts**, **144 / 150 conformant**
+(124 PASS, 20 WARN, 6 FAIL).
 Source: [`data/survey-2026-09-05.json`](./data/survey-2026-09-05.json).
 
-> The headline ratio is unchanged from 2026-08-31 (142/150), but the composition
-> moved: **22 hosts rotated out of the top 150 and 22 new ones in** over the 5
-> days, and the FAIL set changed (see Findings). Traffic stays highly skewed —
-> `stableenrich.dev` alone roughly doubled to ~42,000 calls/30d and now carries
-> more volume than the next six hosts combined.
+> **Re-run 2026-09-05 (later) with scheme-aware `accepts[]` validation.** The
+> linter previously applied the EVM `exact`-scheme rules (integer atomic
+> `amount`, on-chain `asset`/`payTo`) to *every* payment option. The x402
+> ecosystem now has non-EVM schemes in the wild — `agent-pay` (AWS, `iso4217:`
+> fiat + decimal amounts), `alipay:a2m`, `nvm:erc4337`, and `exact` on XRPL
+> (RLUSD uses decimal amounts). Those now WARN instead of FAIL, so
+> `x402.tavily.com` and `gridpulse.theaslangroupllc.com` — each with a fully
+> valid `exact`/USDC option next to a valid alt-scheme option — move from FAIL
+> to conformant-with-warnings. `scheme`/`network`/`amount` remain hard-required
+> on every entry, so genuinely broken entries (`token4u.ai`'s `accepts[2]` has
+> no `amount`) still FAIL. Net: 142→144/150.
+> Composition also moved vs. 2026-08-31: **~22 hosts rotated out of the top 150
+> and ~22 new ones in**. Traffic stays highly skewed — `stableenrich.dev` alone
+> roughly doubled to ~42,000 calls/30d, more than the next six hosts combined.
 
 Top 20 hosts:
 
@@ -60,7 +69,7 @@ Top 20 hosts:
 | kronossignals.com | 2,137 | v2 | ✅ PASS |
 | api.strale.io | 1,906 | v2 | ✅ PASS |
 | token4u.ai | 1,824 | v2 | ❌ FAIL |
-| x402.tavily.com | 1,794 | v2 | ❌ FAIL |
+| x402.tavily.com | 1,774 | v2 | ⚠️ WARN |
 | api.kadec0.xyz | 1,741 | v2 | ✅ PASS |
 | api.nansen.ai | 1,507 | v2 | ✅ PASS |
 | google-trends.use.x402atlas.com | 1,355 | v2 | ✅ PASS |
@@ -73,32 +82,34 @@ Full 150-host table: the
 
 ### Findings
 
-**8 FAIL hosts** — three distinct bug classes, and the mix shifted since 08-31:
+**6 FAIL hosts** — two distinct bug classes:
 
-- **`400` instead of `402` (5 hosts, up from 2):** `x402.telnyx.com`,
+- **`400` instead of `402` (5 hosts, up from 2 on 08-31):** `x402.telnyx.com`,
   `api.surplusintelligence.ai`, **`agentdata-api.sander-van-aard.workers.dev`**,
-  **`grov.fun`**, **`deepai.pay.zeroclick.io`** (last three new this snapshot).
+  **`grov.fun`**, **`deepai.pay.zeroclick.io`** (last three new since 08-31).
   Each validates the request body before issuing a payment challenge and returns
   `400` (no `payment-required` header, no `x402Version` in body) to the empty
   probe. The x402 flow expects the `402` first — a discovery client or scanner
-  that pre-flights the endpoint never sees a challenge. Lower-confidence than the
-  malformed-`amount` FAILs (a caller sending a complete body may reach the
-  paywall), but this is now the **largest FAIL class** and it is growing — worth
-  a spec note that the challenge should precede body validation.
+  that pre-flights the endpoint never sees a challenge. This is now the
+  **largest FAIL class** and it is growing — worth a spec note that the
+  challenge should precede body validation.
 
-- **Non-integer `amount` (2 hosts, down from 5):** `x402.tavily.com`
-  (`accepts[1].amount: "0.016"`, unchanged and unfixed since 2026-08-28 — 8 days)
-  and `gridpulse.theaslangroupllc.com` (`accepts[11].amount: "0.01"`). The rest
-  of the `theaslangroupllc` fleet (`riskpulse` / `waterpulse` / `macropulse`)
-  dropped out of the top 150 on volume, not a fix. Per the core v2 spec `amount`
-  is "a base-10 string of a positive **integer** in atomic token units"; the
-  malformed values sit in late `agent-pay` / fiat alternative entries, so a
-  standard agent paying `accepts[0]` never hits them. **Fix:** atomic units
-  (`"16000"` for a 6-decimal stablecoin) or drop the alternative.
+- **Missing required `amount` (1 host):** `token4u.ai` — `accepts[2]`
+  (`scheme: "nvm:erc4337"`) advertises no `amount` at all. `scheme`, `network`
+  and `amount` are the irreducible per-entry minimum in the v2 envelope; a
+  client iterating the options hits an entry it cannot price.
 
-- **Malformed `accepts[]` entries (1 host):** `token4u.ai` — `accepts[2]` is
-  missing every required field and `accepts[3].amount` is `"0.00"` with no
-  `asset` / `payTo`. A client iterating the options hits an unparseable entry.
+**Non-integer `amount` on alt-scheme entries is now WARN, not FAIL.**
+`x402.tavily.com` (`accepts[1]`: `agent-pay` scheme, `iso4217:USD`,
+`amount: "0.016"`) and `gridpulse.theaslangroupllc.com` (`accepts[11]`: `exact`
+on `xrpl:0`, `amount: "0.01"`) advertise decimal amounts. That is a spec
+violation *for the EVM `exact` scheme* ("a base-10 string of a positive
+**integer** in atomic token units") but not necessarily for `agent-pay` /
+non-EVM ledgers, which define their own amount representation. Both hosts also
+offer a fully valid `exact`/USDC `accepts[0]`, so a standard agent pays with no
+special-casing. If you operate one of these: for the EVM entry use atomic units
+(`"16000"` for a 6-decimal stablecoin); for the alt entry, confirm the amount
+format against that scheme's spec.
 
 - **WARN (18 hosts): no top-level `error` string.** The challenge omits the
   optional human-readable `error` field. Spec-legal, but clients surface it on a
@@ -109,12 +120,12 @@ Full 150-host table: the
 
 ### Reading the trend
 
-- **Conformance ratio is stable but the failure mode is rotating.** 142/150
-  (95%) for the second snapshot running, but "return `400` before the `402`"
-  overtook "non-integer `amount`" as the most common FAIL — it went from 2 to 5
-  hosts in 5 days as new LLM/data proxies come online with request-validation
-  ahead of the payment gate. If you operate an x402 proxy: **emit the `402`
-  challenge first, validate the body after payment.**
+- **`400`-before-`402` is now the whole FAIL story.** 144/150 (96%) conformant.
+  Once alt-scheme decimal amounts are correctly treated as WARN, the only
+  remaining bug classes are pre-flight `400`s (5 hosts, up from 2 in 5 days as
+  new LLM/data proxies come online with request-validation ahead of the payment
+  gate) and one entry with no `amount`. If you operate an x402 proxy: **emit the
+  `402` challenge first, validate the body after payment.**
 - **Traffic is concentrating, not spreading.** `stableenrich.dev` roughly
   doubled and the top host now dwarfs the field; meanwhile 22 of the prior top
   150 fell below the cut. The long tail churns fast — a "busiest 150" list has a
@@ -132,7 +143,7 @@ Full 150-host table: the
 | [2026-08-28](./data/survey-2026-08-28.json) | 30 | 29 | ~12 | first snapshot; tavily FAIL; 8/30 omit `error` |
 | [2026-08-30](./data/survey-2026-08-30.json) | 40 | 39 | 12 | tavily FAIL persists; WARNs traced to shared middleware on stableenrich.dev + blockrun.ai |
 | [2026-08-31](./data/survey-2026-08-31.json) | 150 | 142 | 150 | **methodology change:** catalogue paginated + `--per-host`; registry is ~14,300 resources / ~1,600 hosts, this covers the 150 busiest. 8 FAIL (tavily + theaslangroupllc fleet non-integer `amount`; token4u malformed `accepts[]`; telnyx + surplusintelligence return 400 not 402); 18 `error`-omission WARN on shared middleware |
-| [2026-09-05](./data/survey-2026-09-05.json) | 150 | 142 | 150 | ratio flat, composition moved: 22 hosts in / 22 out. FAIL mix rotated — "400 not 402" grew 2→5 (telnyx, surplusintelligence, + new: agentdata-api.sander-van-aard.workers.dev, grov.fun, deepai.pay.zeroclick.io); non-integer `amount` shrank 5→2 (tavily unfixed 8d, gridpulse) as the rest of the aslangroup fleet fell below the volume cut; token4u malformed `accepts[]` persists; 18 `error`-omission WARN. `stableenrich.dev` ~doubled to ~42k calls/30d |
+| [2026-09-05](./data/survey-2026-09-05.json) | 150 | 144 | 150 | **linter change:** scheme-aware `accepts[]` validation — EVM `exact` rules (integer atomic `amount`, on-chain `asset`/`payTo`) no longer FAIL non-EVM schemes (`agent-pay`, `alipay:a2m`, `nvm:*`, `exact` on XRPL); they WARN. tavily + gridpulse move FAIL→conformant. 6 FAIL left: 5× `400`-not-`402` (telnyx, surplusintelligence, agentdata-api.sander-van-aard.workers.dev, grov.fun, deepai.pay.zeroclick.io), 1× token4u `accepts[2]` missing `amount`. 20 WARN (18 `error`-omission + tavily/gridpulse decimal amount). Composition moved ~22 in/out vs 08-31; `stableenrich.dev` ~doubled to ~42k calls/30d |
 
 ## Web version
 
