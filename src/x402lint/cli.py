@@ -37,14 +37,17 @@ _RESET = "\033[0m"
 
 
 def _fetch(url: str, method: str, timeout: float,
-           extra_headers: dict[str, str] | None = None) -> tuple[int, dict[str, str], bytes]:
+           extra_headers: dict[str, str] | None = None,
+           data: bytes | None = None) -> tuple[int, dict[str, str], bytes]:
     hdrs = {
         "User-Agent": f"x402lint/{__version__}",
         "Accept": "application/json",
     }
+    if data is not None:
+        hdrs.setdefault("Content-Type", "application/json")
     if extra_headers:
         hdrs.update(extra_headers)
-    req = urllib.request.Request(url, method=method, headers=hdrs)
+    req = urllib.request.Request(url, method=method, headers=hdrs, data=data)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             return resp.status, dict(resp.headers.items()), resp.read()
@@ -67,8 +70,22 @@ def _render(report, use_color: bool) -> None:
 
 
 def cmd_check(args: argparse.Namespace) -> int:
+    data = None
+    method = args.method
+    if args.data is not None:
+        raw = sys.stdin.read() if args.data == "-" else args.data
+        if raw.startswith("@"):
+            with open(raw[1:], "rb") as fh:
+                raw = fh.read().decode()
+        try:
+            data = json.dumps(json.loads(raw)).encode()
+        except json.JSONDecodeError as e:
+            print(f"error: --data is not valid JSON: {e}", file=sys.stderr)
+            return 2
+        if method == "GET":
+            method = "POST"
     try:
-        status, headers, body = _fetch(args.url, args.method, args.timeout)
+        status, headers, body = _fetch(args.url, method, args.timeout, data=data)
     except X402LintError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
@@ -216,9 +233,14 @@ def cmd_survey(args: argparse.Namespace) -> int:
         if r.get("query") and not args.no_hints:
             target += ("&" if "?" in target else "?") + urllib.parse.urlencode(r["query"])
         method = "GET" if args.no_hints else (r.get("method") or "GET")
+        post_body = None
+        if not args.no_hints and method in ("POST", "PUT", "PATCH") and isinstance(r.get("body"), dict):
+            post_body = json.dumps(r["body"]).encode()
         entry = {"resource": target, "method": method, "calls_30d": r["calls_30d"]}
+        if post_body is not None:
+            entry["probe_body"] = True
         try:
-            status, headers, body = _fetch(target, method, args.timeout)
+            status, headers, body = _fetch(target, method, args.timeout, data=post_body)
             report = lint_response(target, status, headers, body)
             entry.update(
                 wire_version=report.wire_version,
@@ -456,6 +478,10 @@ def build_parser() -> argparse.ArgumentParser:
     c = sub.add_parser("check", help="lint an endpoint's x402 challenge")
     c.add_argument("url")
     c.add_argument("--method", default="GET")
+    c.add_argument("--data", metavar="JSON",
+                   help="JSON request body to send (implies POST); '@file' reads "
+                        "a file, '-' reads stdin. Needed for parametrized POST "
+                        "endpoints that validate the body before the 402.")
     c.add_argument("--timeout", type=float, default=10.0)
     c.add_argument("--json", action="store_true", help="machine-readable report")
     c.add_argument("--no-color", action="store_true")

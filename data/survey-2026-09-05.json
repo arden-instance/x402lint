@@ -1,11 +1,12 @@
 {
   "n": 150,
-  "conformant": 144,
+  "conformant": 149,
   "results": [
     {
       "resource": "https://stableenrich.dev/api/exa/search",
       "method": "POST",
       "calls_30d": 41597,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -48,6 +49,7 @@
       "resource": "https://api.exa.ai/search",
       "method": "POST",
       "calls_30d": 5825,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -76,6 +78,7 @@
       "resource": "https://enrichx402.com/api/exa/contents",
       "method": "POST",
       "calls_30d": 4477,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -90,6 +93,7 @@
       "resource": "https://win.oneshotagent.com/v1/tools/verify/email",
       "method": "POST",
       "calls_30d": 4331,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -104,6 +108,7 @@
       "resource": "https://glim.sh/api/v1/twitter/search",
       "method": "POST",
       "calls_30d": 4088,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -188,6 +193,7 @@
       "resource": "https://token4u.ai/v1/chat/completions",
       "method": "POST",
       "calls_30d": 1810,
+      "probe_body": true,
       "wire_version": "2",
       "ok": false,
       "counts": {
@@ -204,6 +210,7 @@
       "resource": "https://x402.tavily.com/search",
       "method": "POST",
       "calls_30d": 1774,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -232,6 +239,7 @@
       "resource": "https://api.nansen.ai/api/v1/profiler/address/current-balance",
       "method": "POST",
       "calls_30d": 1509,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -288,6 +296,7 @@
       "resource": "https://x402-api.aubr.ai/api/chat/encrypted",
       "method": "POST",
       "calls_30d": 756,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -428,6 +437,7 @@
       "resource": "https://svm402.com/analyze",
       "method": "POST",
       "calls_30d": 537,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -442,6 +452,7 @@
       "resource": "https://apollo.x402.paywithlocus.com/apollo/people-enrichment",
       "method": "POST",
       "calls_30d": 526,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -498,6 +509,7 @@
       "resource": "https://farouter.tech/v1/chat/completions",
       "method": "POST",
       "calls_30d": 396,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -512,6 +524,7 @@
       "resource": "https://vaaya.ai/api/run/exa/search",
       "method": "POST",
       "calls_30d": 337,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -554,23 +567,22 @@
       "resource": "https://agentdata-api.sander-van-aard.workers.dev/web/places",
       "method": "POST",
       "calls_30d": 314,
-      "wire_version": null,
-      "ok": false,
+      "probe_body": true,
+      "wire_version": "2",
+      "ok": true,
       "counts": {
-        "PASS": 0,
+        "PASS": 14,
         "WARN": 0,
-        "FAIL": 2,
-        "INFO": 0
+        "FAIL": 0,
+        "INFO": 2
       },
-      "fails": [
-        "status: expected HTTP 402, got 400",
-        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
-      ]
+      "fails": []
     },
     {
       "resource": "https://api.arkm.com/x402/intelligence/address",
       "method": "POST",
       "calls_30d": 290,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -613,6 +625,7 @@
       "resource": "https://x402.agentutility.ai/stocks-news",
       "method": "POST",
       "calls_30d": 280,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -627,23 +640,22 @@
       "resource": "https://grov.fun/api/solana/fbfollowers",
       "method": "POST",
       "calls_30d": 278,
-      "wire_version": null,
-      "ok": false,
+      "probe_body": true,
+      "wire_version": "2",
+      "ok": true,
       "counts": {
-        "PASS": 0,
+        "PASS": 11,
         "WARN": 0,
-        "FAIL": 2,
-        "INFO": 0
+        "FAIL": 0,
+        "INFO": 4
       },
-      "fails": [
-        "status: expected HTTP 402, got 400",
-        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
-      ]
+      "fails": []
     },
     {
       "resource": "https://x402.orthogonal.com/baseten/v1/chat/completions",
       "method": "POST",
       "calls_30d": 261,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -658,6 +670,7 @@
       "resource": "https://openrelay.hggfffdfy687.workers.dev/v1/premium/chat/completions",
       "method": "POST",
       "calls_30d": 255,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -672,6 +685,7 @@
       "resource": "https://cheaptokens.ai/api/buy",
       "method": "POST",
       "calls_30d": 249,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -686,6 +700,7 @@
       "resource": "https://api.clawfetch.ai/fetch",
       "method": "POST",
       "calls_30d": 249,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -700,6 +715,7 @@
       "resource": "https://proxy.suverse.io/v1/swap/solana/quote",
       "method": "POST",
       "calls_30d": 241,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -728,6 +744,7 @@
       "resource": "https://molecular-packs-metadata-docs.trycloudflare.com/summarize",
       "method": "POST",
       "calls_30d": 230,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -742,6 +759,7 @@
       "resource": "https://api.delx.ai/api/v1/x402/speech",
       "method": "POST",
       "calls_30d": 223,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -756,6 +774,7 @@
       "resource": "https://stableupload.dev/api/upload",
       "method": "POST",
       "calls_30d": 218,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -868,6 +887,7 @@
       "resource": "https://api.linkedpanda.com/agent/v1/profiles/search",
       "method": "POST",
       "calls_30d": 192,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -924,6 +944,7 @@
       "resource": "https://skim402.com/api/v1/read",
       "method": "POST",
       "calls_30d": 181,
+      "probe_body": true,
       "wire_version": "1",
       "ok": true,
       "counts": {
@@ -938,6 +959,7 @@
       "resource": "https://chat.gedx402.com/v1/chat/completions",
       "method": "POST",
       "calls_30d": 180,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -980,6 +1002,7 @@
       "resource": "https://402signal.com/route",
       "method": "POST",
       "calls_30d": 165,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1022,18 +1045,16 @@
       "resource": "https://x402.telnyx.com/v1/chat/completions",
       "method": "POST",
       "calls_30d": 158,
-      "wire_version": null,
-      "ok": false,
+      "probe_body": true,
+      "wire_version": "2",
+      "ok": true,
       "counts": {
-        "PASS": 0,
+        "PASS": 21,
         "WARN": 0,
-        "FAIL": 2,
-        "INFO": 0
+        "FAIL": 0,
+        "INFO": 2
       },
-      "fails": [
-        "status: expected HTTP 402, got 400",
-        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
-      ]
+      "fails": []
     },
     {
       "resource": "https://readx.sh/api/search/tweets",
@@ -1053,6 +1074,7 @@
       "resource": "https://surf.cascade.fyi/api/v1/twitter/search",
       "method": "POST",
       "calls_30d": 152,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1081,6 +1103,7 @@
       "resource": "https://stablestudio.dev/api/upload",
       "method": "POST",
       "calls_30d": 142,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1179,23 +1202,22 @@
       "resource": "https://api.surplusintelligence.ai/v1/chat/completions",
       "method": "POST",
       "calls_30d": 129,
-      "wire_version": null,
-      "ok": false,
+      "probe_body": true,
+      "wire_version": "2",
+      "ok": true,
       "counts": {
-        "PASS": 0,
+        "PASS": 21,
         "WARN": 0,
-        "FAIL": 2,
-        "INFO": 0
+        "FAIL": 0,
+        "INFO": 2
       },
-      "fails": [
-        "status: expected HTTP 402, got 400",
-        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
-      ]
+      "fails": []
     },
     {
       "resource": "https://rubric-protocol.com/v1/x402/attested-screening",
       "method": "POST",
       "calls_30d": 128,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1252,6 +1274,7 @@
       "resource": "https://twitter.surf.cascade.fyi/api/v1/twitter/users/search",
       "method": "POST",
       "calls_30d": 118,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1392,6 +1415,7 @@
       "resource": "https://groq.x402.stage.paywithlocus.com/groq/chat",
       "method": "POST",
       "calls_30d": 104,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1406,6 +1430,7 @@
       "resource": "https://x402-tokens.fly.dev/v1/chat/completions",
       "method": "POST",
       "calls_30d": 104,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1420,6 +1445,7 @@
       "resource": "https://www.stablebrowser.dev/api/sessions",
       "method": "POST",
       "calls_30d": 103,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1448,6 +1474,7 @@
       "resource": "https://api.safe4.ai/v1/authorize",
       "method": "POST",
       "calls_30d": 99,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1462,6 +1489,7 @@
       "resource": "https://spawnxchange-api-485602182462.europe-west4.run.app/api/v1/items",
       "method": "POST",
       "calls_30d": 91,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1476,6 +1504,7 @@
       "resource": "https://x402-echo-service.onrender.com/web/search",
       "method": "POST",
       "calls_30d": 89,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1490,6 +1519,7 @@
       "resource": "https://omniguchi.0000402.xyz/care/pack",
       "method": "POST",
       "calls_30d": 87,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1518,6 +1548,7 @@
       "resource": "https://anthropic.x402.stage.paywithlocus.com/anthropic/chat",
       "method": "POST",
       "calls_30d": 82,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1532,6 +1563,7 @@
       "resource": "https://weather.payapi.market/current",
       "method": "POST",
       "calls_30d": 80,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1546,6 +1578,7 @@
       "resource": "https://kleros-ipfs-gateway.fly.dev/upload-to-ipfs",
       "method": "POST",
       "calls_30d": 79,
+      "probe_body": true,
       "wire_version": "1",
       "ok": true,
       "counts": {
@@ -1588,6 +1621,7 @@
       "resource": "https://x402-gateway-production.up.railway.app/api/image/text",
       "method": "POST",
       "calls_30d": 75,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1644,6 +1678,7 @@
       "resource": "https://hunter.x402.paywithlocus.com/hunter/email-verifier",
       "method": "POST",
       "calls_30d": 72,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1658,6 +1693,7 @@
       "resource": "https://trace.sociologic.ai/trace",
       "method": "POST",
       "calls_30d": 71,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1714,6 +1750,7 @@
       "resource": "https://api.xfuel.app/v1/chat/completions",
       "method": "POST",
       "calls_30d": 67,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1798,6 +1835,7 @@
       "resource": "https://website2vat.com/x402/vat-lookup",
       "method": "POST",
       "calls_30d": 62,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1812,6 +1850,7 @@
       "resource": "https://x402.aispace.bot/api/v1/chat/completions",
       "method": "POST",
       "calls_30d": 61,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1826,6 +1865,7 @@
       "resource": "https://stablepeopledata.dev/api/pdl/company/enrich",
       "method": "POST",
       "calls_30d": 61,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1882,6 +1922,7 @@
       "resource": "https://agents.driftflight.com/v1/images/generate",
       "method": "POST",
       "calls_30d": 59,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -1994,23 +2035,22 @@
       "resource": "https://deepai.pay.zeroclick.io/api/text2img",
       "method": "POST",
       "calls_30d": 55,
-      "wire_version": null,
-      "ok": false,
+      "probe_body": true,
+      "wire_version": "2",
+      "ok": true,
       "counts": {
-        "PASS": 0,
+        "PASS": 14,
         "WARN": 0,
-        "FAIL": 2,
-        "INFO": 0
+        "FAIL": 0,
+        "INFO": 2
       },
-      "fails": [
-        "status: expected HTTP 402, got 400",
-        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
-      ]
+      "fails": []
     },
     {
       "resource": "https://agents.dubbleblack.com/api/agent/evidence",
       "method": "POST",
       "calls_30d": 55,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -2053,6 +2093,7 @@
       "resource": "https://api.webbersites.com/v1/messages",
       "method": "POST",
       "calls_30d": 54,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {
@@ -2067,6 +2108,7 @@
       "resource": "https://api.getplexa.com/v1/pretrade/check",
       "method": "POST",
       "calls_30d": 54,
+      "probe_body": true,
       "wire_version": "2",
       "ok": true,
       "counts": {

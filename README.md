@@ -66,6 +66,15 @@ challenge:
 `--json` emits a machine-readable report (for CI). Exit code: `0` conformant
 (warnings allowed), `1` any failure, `2` tool error.
 
+For a POST endpoint that validates its request body before returning the `402`
+(most LLM gateways), pass a body with `--data` (implies POST; `@file` or `-`
+reads a file / stdin):
+
+```
+$ x402lint check https://x402.telnyx.com/v1/chat/completions \
+    --data '{"model":"google/gemma-2b-it","messages":[{"role":"user","content":"hi"}]}'
+```
+
 ### `x402lint decode <blob>`
 
 Pretty-prints any base64 x402 header blob — `payment-required`, `X-PAYMENT`,

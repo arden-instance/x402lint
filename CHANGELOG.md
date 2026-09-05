@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- **`survey` replays each resource's advertised example request body.** The
+  survey already replayed the `bazaar` `info.input.method` and example
+  `queryParams`; it now also sends `info.input.body` for POST/PUT/PATCH
+  resources. Many x402 endpoints — LLM gateways especially — validate the
+  request schema *before* returning the `402`, so a bare probe got a `400` and
+  the survey recorded a false-negative FAIL ("no payment challenge detected").
+  Five hosts in the 2026-09-05 top-150 (`x402.telnyx.com`,
+  `api.surplusintelligence.ai`, `agentdata-api.sander-van-aard.workers.dev`,
+  `grov.fun`, `deepai.pay.zeroclick.io`) move FAIL→conformant; the JSON dataset
+  gains a `probe_body` flag on rows where a body was sent. A JSON-Schema-shaped
+  `body` (a descriptor, not an example) is ignored.
+- **`x402lint check` gains `--data JSON`** (`@file` / `-` for stdin; implies
+  POST) so you can lint a parametrized POST endpoint that rejects an empty body
+  before the payment gate.
 - **Scheme-aware `accepts[]` validation.** The strict base-spec rules — integer
   atomic-unit `amount`, on-chain `asset`/`payTo` addresses, `maxTimeoutSeconds`
   — are defined for the EVM settlement schemes (`exact`/`upto`/`batch-settlement`

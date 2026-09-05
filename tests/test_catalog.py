@@ -115,6 +115,29 @@ def test_parse_catalogue_defaults_when_no_bazaar():
     rows = parse_catalogue({"items": [{"resource": "https://x/a"}]})
     assert rows[0]["method"] == "GET"
     assert rows[0]["query"] == {}
+    assert rows[0]["body"] is None
+
+
+def test_parse_catalogue_extracts_example_post_body():
+    item = {"resource": "https://x/v1/chat", "extensions": {"bazaar": {"info": {"input": {
+        "method": "post",
+        "bodyType": "json",
+        "body": {"model": "gemma-2b", "messages": [{"role": "user", "content": "hi"}]},
+    }}}}}
+    rows = parse_catalogue({"items": [item]})
+    assert rows[0]["method"] == "POST"
+    assert rows[0]["body"] == {"model": "gemma-2b",
+                               "messages": [{"role": "user", "content": "hi"}]}
+
+
+def test_parse_catalogue_ignores_schema_shaped_body():
+    # a JSON-Schema descriptor in `body` is not a usable example
+    item = {"resource": "https://x/v1/op", "extensions": {"bazaar": {"info": {"input": {
+        "method": "post",
+        "body": {"type": "object", "required": ["q"], "properties": {"q": {"type": "string"}}},
+    }}}}}
+    rows = parse_catalogue({"items": [item]})
+    assert rows[0]["body"] is None
 
 
 def test_top_resources_skips_unusable_urls():

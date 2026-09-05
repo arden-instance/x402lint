@@ -111,7 +111,7 @@ def parse_catalogue(doc: Any) -> list[dict[str, Any]]:
         accepts = it.get("accepts")
         accepts = accepts if isinstance(accepts, list) else []
         quality = it.get("quality") if isinstance(it.get("quality"), dict) else {}
-        method, query = _bazaar_input(it)
+        method, query, body = _bazaar_input(it)
         rows.append({
             "resource": it.get("resource"),
             "description": (it.get("description") or "").strip(),
@@ -125,20 +125,28 @@ def parse_catalogue(doc: Any) -> list[dict[str, Any]]:
             "payers_30d": quality.get("l30DaysUniquePayers"),
             "method": method,
             "query": query,
+            "body": body,
         })
     return rows
 
 
-def _bazaar_input(item: dict[str, Any]) -> tuple[str, dict[str, str]]:
-    """Pull the request method + example query params a resource advertises via
-    the ``bazaar`` discovery extension, so a survey can reproduce the call that
-    actually triggers the 402. Falls back to ``("GET", {})``."""
+def _bazaar_input(item: dict[str, Any]) -> tuple[str, dict[str, str], dict[str, Any] | None]:
+    """Pull the request method + example query params + example JSON body a
+    resource advertises via the ``bazaar`` discovery extension, so a survey can
+    reproduce the call that actually triggers the 402. Falls back to
+    ``("GET", {}, None)``.
+
+    The example body matters for POST resources: many x402 endpoints (LLM
+    gateways especially) validate the request schema *before* returning the 402
+    challenge, so a bare POST with no body gets a 400 and the survey never sees
+    the (perfectly valid) payment challenge. Replaying the endpoint's own
+    advertised example body elicits the real 402."""
     try:
         inp = item["extensions"]["bazaar"]["info"]["input"]
     except (KeyError, TypeError):
-        return "GET", {}
+        return "GET", {}, None
     if not isinstance(inp, dict):
-        return "GET", {}
+        return "GET", {}, None
     method = inp.get("method")
     method = method.upper() if isinstance(method, str) and method else "GET"
     qp = inp.get("queryParams")
@@ -151,7 +159,21 @@ def _bazaar_input(item: dict[str, Any]) -> tuple[str, dict[str, str]]:
         for k, v in qp.items():
             if isinstance(v, (str, int, float)) and not isinstance(v, bool):
                 query[str(k)] = str(v)
-    return method, query
+    # The example body is used verbatim only when it's a concrete JSON object of
+    # example values (not a JSON-Schema descriptor). A conformant x402 endpoint
+    # returns the 402 before executing the request, so replaying it has no side
+    # effect beyond the (unpaid, hence rejected) call.
+    raw_body = inp.get("body")
+    body = raw_body if isinstance(raw_body, dict) and not _looks_like_schema(raw_body) else None
+    return method, query, body
+
+
+def _looks_like_schema(obj: dict[str, Any]) -> bool:
+    """Heuristic: a JSON-Schema descriptor rather than a concrete example body."""
+    if any(k in obj for k in ("$schema", "properties", "required", "additionalProperties")):
+        return True
+    return isinstance(obj.get("type"), str) and obj.get("type") in {
+        "object", "string", "number", "integer", "boolean", "array", "null"}
 
 
 def _has_path_template(url: str) -> bool:
