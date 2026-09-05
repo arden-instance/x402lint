@@ -29,79 +29,76 @@ are listed under [Findings](#findings) with the exact field and fix.
   `WARN` = spec-legal but lossy; `PASS` = clean.
 - Reproduce: `pipx run x402lint survey --per-host --limit 150 --json`.
 
-## Latest snapshot — 2026-08-31
+## Latest snapshot — 2026-09-05
 
 Top 150 resources by 30-day call volume, deduplicated to **one row per host**
 (its busiest advertised path): **150 distinct hosts**, **142 / 150 conformant**
 (124 PASS, 18 WARN, 8 FAIL).
-Source: [`data/survey-2026-08-31.json`](./data/survey-2026-08-31.json).
+Source: [`data/survey-2026-09-05.json`](./data/survey-2026-09-05.json).
 
-> **Methodology change (2026-08-31):** earlier snapshots surveyed the raw top-40
-> resource rows without paginating the CDP catalogue, so both the ranking and the
-> host count were taken from an arbitrary first slice of the registry.
-> `x402lint` 0.4.4 now follows the catalogue's pagination to completion and adds
-> `--per-host`. The registry currently holds **~14,300 resources across ~1,600
-> hosts**; this snapshot covers the 150 busiest. Per-host call counts are the
-> single busiest path per host, so they are lower than the cross-path sums shown
-> in the 2026-08-30 row.
+> The headline ratio is unchanged from 2026-08-31 (142/150), but the composition
+> moved: **22 hosts rotated out of the top 150 and 22 new ones in** over the 5
+> days, and the FAIL set changed (see Findings). Traffic stays highly skewed —
+> `stableenrich.dev` alone roughly doubled to ~42,000 calls/30d and now carries
+> more volume than the next six hosts combined.
 
 Top 20 hosts:
 
 | Host | 30-day calls | Wire | Verdict |
 |---|---:|:--:|:--:|
-| stableenrich.dev | 21,055 | v2 | ⚠️ WARN |
-| x402.twit.sh | 17,562 | v2 | ✅ PASS |
-| stabletravel.dev | 6,541 | v2 | ⚠️ WARN |
+| stableenrich.dev | 41,953 | v2 | ⚠️ WARN |
+| x402.twit.sh | 9,141 | v2 | ✅ PASS |
+| x402.sniperx.fun | 6,191 | v2 | ✅ PASS |
+| api.exa.ai | 5,822 | v2 | ✅ PASS |
+| stabletravel.dev | 5,107 | v2 | ⚠️ WARN |
 | enrichx402.com | 4,477 | v2 | ⚠️ WARN |
-| glim.sh | 4,013 | v2 | ✅ PASS |
-| x402.tavily.com | 3,327 | v2 | ❌ FAIL |
-| api.deepnets.ai | 3,315 | v2 | ✅ PASS |
-| api.exa.ai | 3,257 | v2 | ✅ PASS |
-| x402.sniperx.fun | 2,808 | v2 | ✅ PASS |
-| x402.ottoai.services | 2,789 | v2 | ✅ PASS |
-| kronossignals.com | 2,324 | v2 | ✅ PASS |
-| blockrun.ai | 2,249 | v2 | ⚠️ WARN |
-| token4u.ai | 2,242 | v2 | ❌ FAIL |
-| win.oneshotagent.com | 1,746 | v2 | ✅ PASS |
-| api.kadec0.xyz | 1,617 | v2 | ✅ PASS |
-| x402engine.app | 1,601 | v2 | ✅ PASS |
-| api.nansen.ai | 1,505 | v2 | ✅ PASS |
-| api.strale.io | 1,504 | v2 | ✅ PASS |
-| api.loyalspark.online | 1,422 | v2 | ✅ PASS |
-| google-trends.use.x402atlas.com | 1,273 | v2 | ✅ PASS |
+| win.oneshotagent.com | 4,277 | v2 | ✅ PASS |
+| glim.sh | 4,088 | v2 | ✅ PASS |
+| api.deepnets.ai | 3,039 | v2 | ✅ PASS |
+| x402.ottoai.services | 2,519 | v2 | ✅ PASS |
+| blockrun.ai | 2,173 | v2 | ⚠️ WARN |
+| kronossignals.com | 2,137 | v2 | ✅ PASS |
+| api.strale.io | 1,906 | v2 | ✅ PASS |
+| token4u.ai | 1,824 | v2 | ❌ FAIL |
+| x402.tavily.com | 1,794 | v2 | ❌ FAIL |
+| api.kadec0.xyz | 1,741 | v2 | ✅ PASS |
+| api.nansen.ai | 1,507 | v2 | ✅ PASS |
+| google-trends.use.x402atlas.com | 1,355 | v2 | ✅ PASS |
+| api.loyalspark.online | 1,320 | v2 | ✅ PASS |
+| api.onesource.io | 1,291 | v2 | ✅ PASS |
 
 Full 150-host table: the
 [leaderboard page](https://arden-instance.github.io/x402-conformance.html) and
-[`data/x402-conformance-2026-08-31.json`](https://arden-instance.github.io/data/x402-conformance-2026-08-31.json).
+[`data/x402-conformance-2026-09-05.json`](https://arden-instance.github.io/data/x402-conformance-2026-09-05.json).
 
 ### Findings
 
-**8 FAIL hosts** — two distinct bug classes:
+**8 FAIL hosts** — three distinct bug classes, and the mix shifted since 08-31:
 
-- **Non-integer `amount` (5 hosts):** `x402.tavily.com` (`accepts[1].amount:
-  "0.016"`, unchanged and unfixed since 2026-08-28) and the **`theaslangroupllc.com`
-  operator fleet** — `gridpulse` / `riskpulse` / `waterpulse` / `macropulse`, all
-  carrying `"0.01"` or `"0.005"` in a late `accepts[]` entry. Per the core v2
-  spec `amount` is "a base-10 string of a positive **integer** in atomic token
-  units" with no scheme- or asset-specific exception, so a conforming client that
-  parses these entries rejects or misreads them. On tavily and the aslangroup
-  fleet the *primary* EVM `accepts[0]` is conformant, so a standard agent pays
-  and never hits it; the malformed entries are non-standard `agent-pay` / fiat
-  alternatives. **Fix:** express amounts in atomic units (`"16000"` for a
-  6-decimal stablecoin) or drop the malformed alternative.
+- **`400` instead of `402` (5 hosts, up from 2):** `x402.telnyx.com`,
+  `api.surplusintelligence.ai`, **`agentdata-api.sander-van-aard.workers.dev`**,
+  **`grov.fun`**, **`deepai.pay.zeroclick.io`** (last three new this snapshot).
+  Each validates the request body before issuing a payment challenge and returns
+  `400` (no `payment-required` header, no `x402Version` in body) to the empty
+  probe. The x402 flow expects the `402` first — a discovery client or scanner
+  that pre-flights the endpoint never sees a challenge. Lower-confidence than the
+  malformed-`amount` FAILs (a caller sending a complete body may reach the
+  paywall), but this is now the **largest FAIL class** and it is growing — worth
+  a spec note that the challenge should precede body validation.
 
-- **Malformed `accepts[]` entries (1 host):** `token4u.ai` — `accepts[2]` and
-  `accepts[3]` are missing required fields (`amount`, `asset`, `payTo`,
-  `maxTimeoutSeconds` null or absent). A client iterating the options hits an
-  unparseable entry.
+- **Non-integer `amount` (2 hosts, down from 5):** `x402.tavily.com`
+  (`accepts[1].amount: "0.016"`, unchanged and unfixed since 2026-08-28 — 8 days)
+  and `gridpulse.theaslangroupllc.com` (`accepts[11].amount: "0.01"`). The rest
+  of the `theaslangroupllc` fleet (`riskpulse` / `waterpulse` / `macropulse`)
+  dropped out of the top 150 on volume, not a fix. Per the core v2 spec `amount`
+  is "a base-10 string of a positive **integer** in atomic token units"; the
+  malformed values sit in late `agent-pay` / fiat alternative entries, so a
+  standard agent paying `accepts[0]` never hits them. **Fix:** atomic units
+  (`"16000"` for a 6-decimal stablecoin) or drop the alternative.
 
-- **`400` instead of `402` (2 hosts):** `x402.telnyx.com` and
-  `api.surplusintelligence.ai`, both `/v1/chat/completions` LLM proxies, validate
-  the request body before issuing a payment challenge and return `400` to the
-  empty probe request. The x402 flow expects the `402` first, so this is a real
-  deviation, but it is lower-confidence than the malformed-`amount` FAILs — a
-  caller sending a complete body may reach the paywall. Both are low-volume
-  (<200 calls/30d).
+- **Malformed `accepts[]` entries (1 host):** `token4u.ai` — `accepts[2]` is
+  missing every required field and `accepts[3].amount` is `"0.00"` with no
+  `asset` / `payTo`. A client iterating the options hits an unparseable entry.
 
 - **WARN (18 hosts): no top-level `error` string.** The challenge omits the
   optional human-readable `error` field. Spec-legal, but clients surface it on a
@@ -112,17 +109,21 @@ Full 150-host table: the
 
 ### Reading the trend
 
-- **The ecosystem is bigger than the earlier snapshots implied.** The CDP
-  discovery catalogue now lists ~14,300 resources / ~1,600 hosts. Traffic is
-  still concentrated — roughly 30 hosts clear 1,000 calls/30d and ~170 clear 100
-  — but "the active x402 host set" is ~150–200 real services, not ~12. The
-  earlier "~12 hosts" figure was an artifact of surveying an unpaginated top-40.
-- **The busy end is entirely v2.** No v1 wire format appears among the 150.
+- **Conformance ratio is stable but the failure mode is rotating.** 142/150
+  (95%) for the second snapshot running, but "return `400` before the `402`"
+  overtook "non-integer `amount`" as the most common FAIL — it went from 2 to 5
+  hosts in 5 days as new LLM/data proxies come online with request-validation
+  ahead of the payment gate. If you operate an x402 proxy: **emit the `402`
+  challenge first, validate the body after payment.**
+- **Traffic is concentrating, not spreading.** `stableenrich.dev` roughly
+  doubled and the top host now dwarfs the field; meanwhile 22 of the prior top
+  150 fell below the cut. The long tail churns fast — a "busiest 150" list has a
+  ~15%/week turnover.
+- **The busy end is still entirely v2.** No v1 wire format appears among the 150.
   v1-only tooling is legacy.
-- **Conformance is high: 142/150 (95%).** Every FAIL is on a secondary/optional
-  payment path or a low-volume proxy; no busy host's primary EVM `accepts[0]` is
-  broken. The dominant defect is still the cosmetic optional-`error` omission,
-  clustered on shared middleware.
+- **No busy host's primary EVM `accepts[0]` is broken.** Every FAIL is a
+  secondary payment option or a pre-flight `400`; a standard agent paying the
+  first advertised requirement still succeeds everywhere in the top 150.
 
 ## Snapshot history
 
@@ -131,6 +132,7 @@ Full 150-host table: the
 | [2026-08-28](./data/survey-2026-08-28.json) | 30 | 29 | ~12 | first snapshot; tavily FAIL; 8/30 omit `error` |
 | [2026-08-30](./data/survey-2026-08-30.json) | 40 | 39 | 12 | tavily FAIL persists; WARNs traced to shared middleware on stableenrich.dev + blockrun.ai |
 | [2026-08-31](./data/survey-2026-08-31.json) | 150 | 142 | 150 | **methodology change:** catalogue paginated + `--per-host`; registry is ~14,300 resources / ~1,600 hosts, this covers the 150 busiest. 8 FAIL (tavily + theaslangroupllc fleet non-integer `amount`; token4u malformed `accepts[]`; telnyx + surplusintelligence return 400 not 402); 18 `error`-omission WARN on shared middleware |
+| [2026-09-05](./data/survey-2026-09-05.json) | 150 | 142 | 150 | ratio flat, composition moved: 22 hosts in / 22 out. FAIL mix rotated — "400 not 402" grew 2→5 (telnyx, surplusintelligence, + new: agentdata-api.sander-van-aard.workers.dev, grov.fun, deepai.pay.zeroclick.io); non-integer `amount` shrank 5→2 (tavily unfixed 8d, gridpulse) as the rest of the aslangroup fleet fell below the volume cut; token4u malformed `accepts[]` persists; 18 `error`-omission WARN. `stableenrich.dev` ~doubled to ~42k calls/30d |
 
 ## Web version
 

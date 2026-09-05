@@ -1,0 +1,2135 @@
+{
+  "n": 150,
+  "conformant": 142,
+  "results": [
+    {
+      "resource": "https://stableenrich.dev/api/exa/search",
+      "method": "POST",
+      "calls_30d": 41953,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.twit.sh/tweets/search?from=elonmusk&minLikes=100&words=bitcoin",
+      "method": "GET",
+      "calls_30d": 9141,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.sniperx.fun/api/v1/token/activities/smarttraders_smartmoney?limit=1&page=1&token_address=example_token_address",
+      "method": "GET",
+      "calls_30d": 6191,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 11,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.exa.ai/search",
+      "method": "POST",
+      "calls_30d": 5822,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stabletravel.dev/api/seats-aero/search?cabin=business&destination_airport=FRA%2CLHR&end_date=2026-12-15&origin_airport=SFO&start_date=2026-12-01&take=25",
+      "method": "GET",
+      "calls_30d": 5107,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://enrichx402.com/api/exa/contents",
+      "method": "POST",
+      "calls_30d": 4477,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://win.oneshotagent.com/v1/tools/verify/email",
+      "method": "POST",
+      "calls_30d": 4277,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://glim.sh/api/v1/twitter/search",
+      "method": "POST",
+      "calls_30d": 4088,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.deepnets.ai/api/token-safety?mint=DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+      "method": "GET",
+      "calls_30d": 3039,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 11,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.ottoai.services/tweet-search?query=%24BTC",
+      "method": "GET",
+      "calls_30d": 2519,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://blockrun.ai/api/v1/exa/search",
+      "method": "POST",
+      "calls_30d": 2173,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://kronossignals.com/api/v1/liquidations/btc",
+      "method": "GET",
+      "calls_30d": 2137,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.strale.io/x402/email-validate",
+      "method": "GET",
+      "calls_30d": 1906,
+      "wire_version": "1",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://token4u.ai/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 1824,
+      "wire_version": "2",
+      "ok": false,
+      "counts": {
+        "PASS": 22,
+        "WARN": 3,
+        "FAIL": 9,
+        "INFO": 2
+      },
+      "fails": [
+        "accepts[2].required: missing fields: amount, asset, payTo, maxTimeoutSeconds",
+        "accepts[2].amount: 'amount' must be a base-10 string of a positive integer, got None",
+        "accepts[2].asset: 'asset' is not a 0x + 40 hex EVM address: None",
+        "accepts[2].payTo: 'payTo' is not a 0x + 40 hex EVM address: None",
+        "accepts[2].maxTimeoutSeconds: must be a positive number, got None",
+        "accepts[3].required: missing fields: asset, payTo",
+        "accepts[3].amount: 'amount' must be a base-10 string of a positive integer, got '0.00'",
+        "accepts[3].asset: 'asset' missing or empty",
+        "accepts[3].payTo: 'payTo' missing or empty"
+      ]
+    },
+    {
+      "resource": "https://x402.tavily.com/search",
+      "method": "POST",
+      "calls_30d": 1794,
+      "wire_version": "2",
+      "ok": false,
+      "counts": {
+        "PASS": 17,
+        "WARN": 1,
+        "FAIL": 1,
+        "INFO": 4
+      },
+      "fails": [
+        "accepts[1].amount: 'amount' must be a base-10 string of a positive integer, got '0.016'"
+      ]
+    },
+    {
+      "resource": "https://api.kadec0.xyz/v1/serp?num_results=10&q=best+python+web+scraping+library",
+      "method": "GET",
+      "calls_30d": 1741,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.nansen.ai/api/v1/profiler/address/current-balance",
+      "method": "POST",
+      "calls_30d": 1507,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 67,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://google-trends.use.x402atlas.com/trend?keyword=bitcoin",
+      "method": "GET",
+      "calls_30d": 1355,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 35,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.loyalspark.online/x402-gateway/recipient-api/offers?token_address=0x0000000000000000000000000000000000000001",
+      "method": "GET",
+      "calls_30d": 1320,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.onesource.io/api/chain/block-number?network=ethereum",
+      "method": "GET",
+      "calls_30d": 1291,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 21,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402-api.aubr.ai/api/chat/encrypted",
+      "method": "POST",
+      "calls_30d": 749,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stockwaves.net/api/xstock/health",
+      "method": "GET",
+      "calls_30d": 746,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.geoprimitives.dev/v1/marine/depth?lat=57.0405&lon=-135.3421",
+      "method": "GET",
+      "calls_30d": 743,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://base-gas-x402-production.up.railway.app/gas?gasLimit=21000",
+      "method": "GET",
+      "calls_30d": 706,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402engine.app/api/crypto/price?currencies=usd%2Ceur&ids=bitcoin%2Cethereum",
+      "method": "GET",
+      "calls_30d": 599,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402stock.xyz/api/v1/news?limit=10&ticker=AAPL",
+      "method": "GET",
+      "calls_30d": 568,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://agent402.tools/api/search?count=5&q=x402+payment+protocol+adoption",
+      "method": "GET",
+      "calls_30d": 553,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 99,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 8
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://agent.api.0x.org/v1/x402/swap-allowance-holder-quote",
+      "method": "GET",
+      "calls_30d": 553,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://tick.hugen.tokyo/tick/latest?symbol=EURUSD",
+      "method": "GET",
+      "calls_30d": 548,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://www.x402scan.com/api/x402/merchants",
+      "method": "GET",
+      "calls_30d": 542,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://svm402.com/analyze",
+      "method": "POST",
+      "calls_30d": 529,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 11,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://apollo.x402.paywithlocus.com/apollo/people-enrichment",
+      "method": "POST",
+      "calls_30d": 526,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://vibesprings.net/api/price/btc-usd",
+      "method": "GET",
+      "calls_30d": 485,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://2s.io/api/stocks/insider-sentiment?ticker=AAPL",
+      "method": "GET",
+      "calls_30d": 462,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://crypto.apitoll.cloud/v1/crypto/price?coins=BTC%2CETH%2CSOL",
+      "method": "GET",
+      "calls_30d": 451,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://farouter.tech/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 396,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 26,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://vaaya.ai/api/run/exa/search",
+      "method": "POST",
+      "calls_30d": 337,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://netintel.dev/web/extract?url=https%3A%2F%2Fwww.sitemaps.org%2Fprotocol.html",
+      "method": "GET",
+      "calls_30d": 333,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.myceliasignal.com/oracle/price/btc/usd",
+      "method": "GET",
+      "calls_30d": 317,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://agentdata-api.sander-van-aard.workers.dev/web/places",
+      "method": "POST",
+      "calls_30d": 314,
+      "wire_version": null,
+      "ok": false,
+      "counts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 2,
+        "INFO": 0
+      },
+      "fails": [
+        "status: expected HTTP 402, got 400",
+        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
+      ]
+    },
+    {
+      "resource": "https://api.printmoneylab.com/api/v1/kimchi-premium?symbol=BTC",
+      "method": "GET",
+      "calls_30d": 292,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.arkm.com/x402/intelligence/address",
+      "method": "POST",
+      "calls_30d": 290,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.openwebninja.com/google-ai-mode/ai-mode",
+      "method": "GET",
+      "calls_30d": 285,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 30,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.agentutility.ai/stocks-news",
+      "method": "POST",
+      "calls_30d": 280,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://grov.fun/api/solana/fbfollowers",
+      "method": "POST",
+      "calls_30d": 278,
+      "wire_version": null,
+      "ok": false,
+      "counts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 2,
+        "INFO": 0
+      },
+      "fails": [
+        "status: expected HTTP 402, got 400",
+        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
+      ]
+    },
+    {
+      "resource": "https://openrelay.hggfffdfy687.workers.dev/v1/premium/chat/completions",
+      "method": "POST",
+      "calls_30d": 255,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://cheaptokens.ai/api/buy",
+      "method": "POST",
+      "calls_30d": 249,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.clawfetch.ai/fetch",
+      "method": "POST",
+      "calls_30d": 249,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://proxy.suverse.io/v1/swap/solana/quote",
+      "method": "POST",
+      "calls_30d": 241,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 10,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.glassnode.com/v1/metrics/distribution/balance_exchanges_relative?a=BTC&i=24h",
+      "method": "GET",
+      "calls_30d": 234,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://molecular-packs-metadata-docs.trycloudflare.com/summarize",
+      "method": "POST",
+      "calls_30d": 230,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.delx.ai/api/v1/x402/speech",
+      "method": "POST",
+      "calls_30d": 223,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.shizu.me/crypto?pair=BTC-USD",
+      "method": "GET",
+      "calls_30d": 218,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://human.twin3.ai/v1/human?check=telegram%2Capple&include=verified_at%2Cdimensions_filled&match=age%3A25-34%2Cinterest%3Atravel%2Cincome%3A200-500%2B&min_score=70&wallet=0x1234567890123456789012345678901234567890",
+      "method": "GET",
+      "calls_30d": 218,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 22,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stableupload.dev/api/upload",
+      "method": "POST",
+      "calls_30d": 217,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.agentstools.dev/search?max_results=5&query=x402+protocol",
+      "method": "GET",
+      "calls_30d": 210,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://coinflip402.vercel.app/api/coinflip",
+      "method": "GET",
+      "calls_30d": 203,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402uselessfacts.vercel.app/api/useless-fact",
+      "method": "GET",
+      "calls_30d": 200,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402lifeadvice.vercel.app/api/life-advice",
+      "method": "GET",
+      "calls_30d": 199,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://ladyfortunalx402.vercel.app/api/fortune",
+      "method": "GET",
+      "calls_30d": 192,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.linkedpanda.com/agent/v1/profiles/search",
+      "method": "POST",
+      "calls_30d": 192,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://dicex402.vercel.app/api/dice",
+      "method": "GET",
+      "calls_30d": 191,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://memegeneratorx402.vercel.app/api/generate-meme",
+      "method": "GET",
+      "calls_30d": 189,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://riddlex402.vercel.app/api/riddle",
+      "method": "GET",
+      "calls_30d": 185,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://chat.gedx402.com/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 182,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://skim402.com/api/v1/read",
+      "method": "POST",
+      "calls_30d": 181,
+      "wire_version": "1",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://options.lonestaroracle.xyz/flow?expiry=nearest&symbol=AAPL&ticker=AAPL",
+      "method": "GET",
+      "calls_30d": 177,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.ochinimus.app/api/liquidation-stats",
+      "method": "GET",
+      "calls_30d": 170,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://horrorstoryapi.vercel.app/api/horror-story",
+      "method": "GET",
+      "calls_30d": 166,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://402signal.com/route",
+      "method": "POST",
+      "calls_30d": 165,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 23,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 6
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402wordoftheday.vercel.app/api/word-of-the-day",
+      "method": "GET",
+      "calls_30d": 161,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.telnyx.com/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 160,
+      "wire_version": null,
+      "ok": false,
+      "counts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 2,
+        "INFO": 0
+      },
+      "fails": [
+        "status: expected HTTP 402, got 400",
+        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
+      ]
+    },
+    {
+      "resource": "https://roastx402endpoint.vercel.app/api/roast",
+      "method": "GET",
+      "calls_30d": 156,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://randomfactsx402.vercel.app/api/random-fact",
+      "method": "GET",
+      "calls_30d": 153,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://readx.sh/api/search/tweets",
+      "method": "GET",
+      "calls_30d": 153,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://surf.cascade.fyi/api/v1/twitter/search",
+      "method": "POST",
+      "calls_30d": 152,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://cryptyx.ai/api/asset/asymmetry?symbol=",
+      "method": "GET",
+      "calls_30d": 145,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stablestudio.dev/api/upload",
+      "method": "POST",
+      "calls_30d": 141,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 18,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://regimeshift.xyz/api/v1/asset/btc/vrp",
+      "method": "GET",
+      "calls_30d": 138,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://402timezones.vercel.app/api/convert-timezone?from=America%2FNew_York&time=2026-07-04T15%3A30&to=Asia%2FTokyo",
+      "method": "GET",
+      "calls_30d": 133,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.x402node.dev/chain/honeypot?address=string&chain=string&token=string",
+      "method": "GET",
+      "calls_30d": 132,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://data.greeneris.io/v1/btc/fees?include=difficulty",
+      "method": "GET",
+      "calls_30d": 130,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.surplusintelligence.ai/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 129,
+      "wire_version": null,
+      "ok": false,
+      "counts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 2,
+        "INFO": 0
+      },
+      "fails": [
+        "status: expected HTTP 402, got 400",
+        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
+      ]
+    },
+    {
+      "resource": "https://rubric-protocol.com/v1/x402/attested-screening",
+      "method": "POST",
+      "calls_30d": 128,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://cars2026.vercel.app/api/cars",
+      "method": "GET",
+      "calls_30d": 126,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://weight402endpoint.vercel.app/api/convert-weight",
+      "method": "GET",
+      "calls_30d": 125,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://jokes-endpoint.vercel.app/api/jokes",
+      "method": "GET",
+      "calls_30d": 122,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.vindexapi.dev/v1/decode?vin=1FTFW1ET5DFC10312",
+      "method": "GET",
+      "calls_30d": 118,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://twitter.surf.cascade.fyi/api/v1/twitter/users/search",
+      "method": "POST",
+      "calls_30d": 118,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.oblique.markets/api/v1/paid/time",
+      "method": "GET",
+      "calls_30d": 113,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://websearch.use.x402atlas.com/search?chunks_per_source=2&query=latest+developments+in+AI+agents&search_depth=fast",
+      "method": "GET",
+      "calls_30d": 113,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 35,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://zeroclick.affiliate.com/v1/merchants?country_ids=US&fields=id%2Cname%2Cdomains%2Cproduct_count&id=930288&per_page=25&search=walmart",
+      "method": "GET",
+      "calls_30d": 113,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://hypernatt.com/api/m2m/liq-radar",
+      "method": "GET",
+      "calls_30d": 109,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://srv1334799.hstgr.cloud/v1/x402/demand/snapshot",
+      "method": "GET",
+      "calls_30d": 109,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://vape-x402.vapex402.workers.dev/data/chain_overview?chain=Base",
+      "method": "GET",
+      "calls_30d": 109,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://76.13.79.47.nip.io/token-signal-x402/v1/x402-market-feed?limit=25&min_payers=5&query=crypto",
+      "method": "GET",
+      "calls_30d": 107,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://agi.apify.com/protocols/x402/prepaid-tokens?amount=2&currency=usd",
+      "method": "GET",
+      "calls_30d": 105,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 24,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 6
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://groq.x402.stage.paywithlocus.com/groq/chat",
+      "method": "POST",
+      "calls_30d": 104,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402-tokens.fly.dev/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 104,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 69,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 8
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://www.stablebrowser.dev/api/sessions",
+      "method": "POST",
+      "calls_30d": 103,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://402utils.com/v1/domain-check?domain=example.com",
+      "method": "GET",
+      "calls_30d": 102,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.safe4.ai/v1/authorize",
+      "method": "POST",
+      "calls_30d": 99,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 37,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://spawnxchange-api-485602182462.europe-west4.run.app/api/v1/items",
+      "method": "POST",
+      "calls_30d": 91,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 22,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402-echo-service.onrender.com/web/search",
+      "method": "POST",
+      "calls_30d": 89,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://omniguchi.0000402.xyz/care/pack",
+      "method": "POST",
+      "calls_30d": 86,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://sandbox.node4all.com/v1/x402-test",
+      "method": "GET",
+      "calls_30d": 83,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://anthropic.x402.stage.paywithlocus.com/anthropic/chat",
+      "method": "POST",
+      "calls_30d": 82,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://weather.payapi.market/current",
+      "method": "POST",
+      "calls_30d": 80,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://kleros-ipfs-gateway.fly.dev/upload-to-ipfs",
+      "method": "POST",
+      "calls_30d": 79,
+      "wire_version": "1",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.gitbeacon.dev/v1/repos?language=example&limit=30",
+      "method": "GET",
+      "calls_30d": 76,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402-endpoints.onrender.com/market/intel?depth=quick&focus=all",
+      "method": "GET",
+      "calls_30d": 76,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.orcatrace.dev/v1/latest",
+      "method": "GET",
+      "calls_30d": 75,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402-gateway-production.up.railway.app/api/image/text",
+      "method": "POST",
+      "calls_30d": 75,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://edgar.apitoll.cloud/v1/edgar/filings?form=10-K&limit=5&ticker=AAPL",
+      "method": "GET",
+      "calls_30d": 73,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.signalis.dev/v1/pulse/narratives",
+      "method": "GET",
+      "calls_30d": 73,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://hunter.x402.paywithlocus.com/hunter/email-verifier",
+      "method": "POST",
+      "calls_30d": 72,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://trace.sociologic.ai/trace",
+      "method": "POST",
+      "calls_30d": 71,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://pro-api.coinmarketcap.com/x402/v3/cryptocurrency/quotes/latest?convert=USD&id=1%2C1027",
+      "method": "GET",
+      "calls_30d": 70,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 62,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.demandex.dev/v1/opportunities/trending",
+      "method": "GET",
+      "calls_30d": 70,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.moltalyzer.xyz/api/moltbook/digests?hours=6&limit=6",
+      "method": "GET",
+      "calls_30d": 69,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://gas.apitoll.cloud/v1/base/gas?blocks=20",
+      "method": "GET",
+      "calls_30d": 68,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.xfuel.app/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 67,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.isocast.dev/v1/spot?city=istanbul",
+      "method": "GET",
+      "calls_30d": 65,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://agents.ai-rook.com/api/gas-tracker",
+      "method": "GET",
+      "calls_30d": 65,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.dripmetrics.ai/metrics/cvd?exchange=coinbase&pair=BTC-USD&window=30m",
+      "method": "GET",
+      "calls_30d": 62,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://website2vat.com/x402/vat-lookup",
+      "method": "POST",
+      "calls_30d": 62,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.aispace.bot/api/v1/chat/completions",
+      "method": "POST",
+      "calls_30d": 61,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://stablepeopledata.dev/api/pdl/company/enrich",
+      "method": "POST",
+      "calls_30d": 61,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 13,
+        "WARN": 1,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://evm-gas.apitoll.cloud/v1/evm/gas?blocks=20&chain=ethereum",
+      "method": "GET",
+      "calls_30d": 60,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.sirenic.eu/v1/recherche?q=danone",
+      "method": "GET",
+      "calls_30d": 60,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 22,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.socialfetch.dev/v1/tiktok/search?query=web+scraping",
+      "method": "GET",
+      "calls_30d": 60,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.truthbear.co/gauge/ruler?entity=required+-+monitored+object+id%2C+paired+with+signal_id%3B+free+list+at+GET+%2Fgauge%2Fcatalog%3Fsignal_id%3D%3Csignal_id%3E+-%3E+signals%5B&signal_id=required+-+signal+id+%28genus.species%29%3B+free+list+at+GET+%2Fgauge%2Fcatalog+%28paged%3B+%3Fall%3D1+for+every+line%29",
+      "method": "GET",
+      "calls_30d": 60,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://gridpulse.theaslangroupllc.com/api/energy/carbon-intensity?hours=24&region=DE",
+      "method": "GET",
+      "calls_30d": 59,
+      "wire_version": "2",
+      "ok": false,
+      "counts": {
+        "PASS": 96,
+        "WARN": 1,
+        "FAIL": 1,
+        "INFO": 10
+      },
+      "fails": [
+        "accepts[11].amount: 'amount' must be a base-10 string of a positive integer, got '0.01'"
+      ]
+    },
+    {
+      "resource": "https://store.agentexchange.work/crypto/prices?coins=BTC%2CETH%2CSOL",
+      "method": "GET",
+      "calls_30d": 59,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://apexrunner.ai/signals/btc-price-tick",
+      "method": "GET",
+      "calls_30d": 59,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://agents.driftflight.com/v1/images/generate",
+      "method": "POST",
+      "calls_30d": 59,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.orthogonal.com/fiber/v1/validate-phone/single",
+      "method": "POST",
+      "calls_30d": 59,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.you.com/v1/search?count=10&query=NVDA+earnings+guidance+Q2+2026",
+      "method": "GET",
+      "calls_30d": 58,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://signal-engine-production-d88d.up.railway.app/v1/arena/rsi_reversion_swing/BTC",
+      "method": "GET",
+      "calls_30d": 58,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://quotient-api-gateway.onrender.com/api/v1/signals?min_capacity_usd=500&min_conviction=2&side=NO&status=active",
+      "method": "GET",
+      "calls_30d": 57,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://weather.hugen.tokyo/weather/current?city=Tokyo",
+      "method": "GET",
+      "calls_30d": 56,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://deepai.pay.zeroclick.io/api/text2img",
+      "method": "POST",
+      "calls_30d": 55,
+      "wire_version": null,
+      "ok": false,
+      "counts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 2,
+        "INFO": 0
+      },
+      "fails": [
+        "status: expected HTTP 402, got 400",
+        "format: no x402 payment challenge detected (no payment-required header, no x402Version in body)"
+      ]
+    },
+    {
+      "resource": "https://agents.dubbleblack.com/api/agent/evidence",
+      "method": "POST",
+      "calls_30d": 55,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://email-auth.use.x402atlas.com/check?domain=example.com&selector=google",
+      "method": "GET",
+      "calls_30d": 54,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 35,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://x402.botsmith.dev/x/search?query=x402+payments&type=Latest",
+      "method": "GET",
+      "calls_30d": 54,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 22,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://diet.agentic-jp.com/members/search?q=%E9%88%B4%E6%9C%A8",
+      "method": "GET",
+      "calls_30d": 54,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 27,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.webbersites.com/v1/messages",
+      "method": "POST",
+      "calls_30d": 54,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.getplexa.com/v1/pretrade/check",
+      "method": "POST",
+      "calls_30d": 54,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 35,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://laso.finance/auth",
+      "method": "GET",
+      "calls_30d": 53,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 19,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 4
+      },
+      "fails": []
+    },
+    {
+      "resource": "https://api.interzoid.com/translatetoany?text=hello+world&to=Japanese",
+      "method": "GET",
+      "calls_30d": 53,
+      "wire_version": "2",
+      "ok": true,
+      "counts": {
+        "PASS": 14,
+        "WARN": 0,
+        "FAIL": 0,
+        "INFO": 2
+      },
+      "fails": []
+    }
+  ]
+}
