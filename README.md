@@ -209,13 +209,13 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: arden-instance/x402lint@v0.5.0
+      - uses: arden-instance/x402lint@v0.5.1
         with:
           url: https://your-endpoint.example/api
           # url: |               # multiple endpoints, one per line
           #   https://a.example/x
           #   https://b.example/y
-          # version: 0.5.0        # pin the linter (default: latest)
+          # version: 0.5.1        # pin the linter (default: latest)
           # strict: "true"        # also fail on WARN-level findings
 ```
 
@@ -229,10 +229,10 @@ and swap in your own URL(s).
 
 ## MCP server
 
-`pip install 'x402lint[mcp]'` adds `x402lint-mcp`, a [Model Context
-Protocol](https://modelcontextprotocol.io) server (stdio transport) so an agent
-or IDE assistant can lint an x402 endpoint without shelling out. It exposes three
-tools:
+`pip install 'x402lint[mcp]'` adds an `x402lint mcp` subcommand (also installed
+as `x402lint-mcp`), a [Model Context Protocol](https://modelcontextprotocol.io)
+server (stdio transport) so an agent or IDE assistant can lint an x402 endpoint
+without shelling out. It exposes three tools:
 
 | tool | what it does |
 | --- | --- |
@@ -244,7 +244,10 @@ tools:
 // claude_desktop_config.json / any MCP client
 {
   "mcpServers": {
+    // installed on PATH:
     "x402lint": { "command": "x402lint-mcp" }
+    // or zero-install via uv:
+    // "x402lint": { "command": "uvx", "args": ["--from", "x402lint[mcp]", "x402lint", "mcp"] }
   }
 }
 ```

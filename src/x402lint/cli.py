@@ -7,6 +7,7 @@ Subcommands:
   survey [catalogue]  run `check` across the busiest discovery-catalogue endpoints
   pay <url>           sign an exact-scheme payment for an endpoint's 402 (offline)
   roundtrip <url>     sign, resend with the payment, report the settlement result
+  mcp                 run the MCP server over stdio (needs the x402lint[mcp] extra)
 """
 
 from __future__ import annotations
@@ -470,6 +471,16 @@ def _roundtrip_via_facilitator(args: argparse.Namespace, entry, prepared) -> int
     return 0 if result["settled"] else 1
 
 
+def cmd_mcp(args: argparse.Namespace) -> int:
+    try:
+        from .mcp_server import main as mcp_main
+    except SystemExit as e:  # missing 'mcp' extra
+        print(str(e), file=sys.stderr)
+        return 2
+    mcp_main()
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="x402lint", description=__doc__.splitlines()[0])
     p.add_argument("--version", action="version", version=f"x402lint {__version__}")
@@ -541,6 +552,9 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("--timeout", type=float, default=15.0)
     r.add_argument("--json", action="store_true", help="machine-readable output")
     r.set_defaults(func=cmd_roundtrip)
+
+    m = sub.add_parser("mcp", help="run the MCP server over stdio (needs x402lint[mcp])")
+    m.set_defaults(func=cmd_mcp)
 
     return p
 

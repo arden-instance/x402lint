@@ -70,6 +70,18 @@ def test_lint_endpoint_body_switches_to_post(monkeypatch):
     mcp_server.lint_endpoint("https://example.test/paid", body='{"q": "hi"}')
 
 
+def test_cli_has_mcp_subcommand(monkeypatch):
+    from x402lint.cli import build_parser, cmd_mcp
+
+    args = build_parser().parse_args(["mcp"])
+    assert args.func is cmd_mcp
+
+    called = {}
+    monkeypatch.setattr("x402lint.mcp_server.main", lambda: called.setdefault("ran", True))
+    assert cmd_mcp(args) == 0
+    assert called["ran"]
+
+
 def test_check_facilitator(monkeypatch):
     supported = {"kinds": [{"x402Version": 1, "scheme": "exact", "network": "base"}]}
     monkeypatch.setattr(mcp_server, "_get_json", lambda url, timeout: supported)

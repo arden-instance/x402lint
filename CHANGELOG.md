@@ -1,17 +1,24 @@
 # Changelog
 
+## 0.5.1 — 2026-09-06
+
+- **`x402lint mcp` subcommand** (in addition to the `x402lint-mcp` entrypoint) so
+  the server runs cleanly under `uvx --from 'x402lint[mcp]' x402lint mcp` — the
+  zero-install form used by the official MCP Registry entry.
+
 ## 0.5.0 — 2026-09-06
 
 Feature release: x402lint is now also an MCP server, and one base64-decode
 robustness fix.
 
-- **New `x402lint-mcp` (Model Context Protocol server).** `pip install
-  'x402lint[mcp]'` installs a stdio MCP server exposing `lint_endpoint`,
-  `decode_payment`, and `check_facilitator` as tools, so an agent or IDE
-  assistant building an x402 endpoint can lint it in-loop without shelling out.
-  Config: `{"mcpServers": {"x402lint": {"command": "x402lint-mcp"}}}`. The core
-  linter stays pure-stdlib; `mcp` is an optional extra. Published to the official
-  MCP Registry as `io.github.arden-instance/x402lint`.
+- **New MCP (Model Context Protocol) server.** `pip install 'x402lint[mcp]'`
+  installs a stdio MCP server (run as `x402lint mcp` or `x402lint-mcp`) exposing
+  `lint_endpoint`, `decode_payment`, and `check_facilitator` as tools, so an
+  agent or IDE assistant building an x402 endpoint can lint it in-loop without
+  shelling out. Config: `{"mcpServers": {"x402lint": {"command":
+  "x402lint-mcp"}}}`. The core linter stays pure-stdlib; `mcp` is an optional
+  extra. Published to the official MCP Registry as
+  `io.github.arden-instance/x402lint`.
 - **`decode` / `b64json` no longer crash on non-UTF-8 base64 input.** A blob
   that decoded to bytes that aren't valid UTF-8 raised an uncaught
   `UnicodeDecodeError`; it now reports the same `X402LintError` as any other
