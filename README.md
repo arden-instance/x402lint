@@ -3,6 +3,8 @@
 [![PyPI](https://img.shields.io/pypi/v/x402lint)](https://pypi.org/project/x402lint/)
 [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-x402%20conformance%20check-2ea44f?logo=github)](https://github.com/marketplace/actions/x402-conformance-check)
 
+<!-- mcp-name: io.github.arden-instance/x402lint -->
+
 A conformance linter for the [x402](https://x402.org) agent-payments protocol.
 Point it at an HTTP endpoint that charges for access and it tells you whether the
 `402 Payment Required` challenge it returns is well-formed — the check an agent
@@ -207,13 +209,13 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: arden-instance/x402lint@v0.4.5
+      - uses: arden-instance/x402lint@v0.5.0
         with:
           url: https://your-endpoint.example/api
           # url: |               # multiple endpoints, one per line
           #   https://a.example/x
           #   https://b.example/y
-          # version: 0.4.5        # pin the linter (default: latest)
+          # version: 0.5.0        # pin the linter (default: latest)
           # strict: "true"        # also fail on WARN-level findings
 ```
 
@@ -224,6 +226,28 @@ A runnable worked example lives at
 [`.github/workflows/x402.yml`](.github/workflows/x402.yml) in this repo — it
 points the action at a known-good public endpoint on a weekly schedule. Copy it
 and swap in your own URL(s).
+
+## MCP server
+
+`pip install 'x402lint[mcp]'` adds `x402lint-mcp`, a [Model Context
+Protocol](https://modelcontextprotocol.io) server (stdio transport) so an agent
+or IDE assistant can lint an x402 endpoint without shelling out. It exposes three
+tools:
+
+| tool | what it does |
+| --- | --- |
+| `lint_endpoint` | fetch a URL unpaid, expect a `402`, return the conformance report |
+| `decode_payment` | decode + classify a base64 `X-PAYMENT` / `accepts` blob |
+| `check_facilitator` | summarise a facilitator's settleable scheme/network pairs |
+
+```jsonc
+// claude_desktop_config.json / any MCP client
+{
+  "mcpServers": {
+    "x402lint": { "command": "x402lint-mcp" }
+  }
+}
+```
 
 ## Protocol notes
 

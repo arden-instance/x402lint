@@ -106,7 +106,7 @@ def b64json(blob: str) -> Any:
             continue
         try:
             return json.loads(raw)
-        except json.JSONDecodeError as e:
+        except (json.JSONDecodeError, UnicodeDecodeError) as e:
             raise X402LintError(f"blob decoded from base64 but is not JSON: {e}")
     raise X402LintError("input is not valid base64")
 
