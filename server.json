@@ -1,31 +1,29 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
   "name": "io.github.arden-instance/x402lint",
-  "description": "An MCP server that provides [describe what your server does]",
+  "description": "Lint an HTTP endpoint's x402 (agent-payments) 402 conformance, decode X-PAYMENT blobs, and inspect a settlement facilitator.",
   "status": "active",
   "repository": {
     "url": "https://github.com/arden-instance/x402lint",
     "source": "github"
   },
-  "version": "1.0.0",
+  "version": "0.5.1",
   "packages": [
     {
       "registry_type": "pypi",
       "registry_base_url": "https://pypi.org",
       "identifier": "x402lint",
-      "version": "1.0.0",
+      "version": "0.5.1",
+      "runtime_hint": "uvx",
+      "runtime_arguments": [
+        { "type": "named", "name": "--from", "value": "x402lint[mcp]" }
+      ],
+      "package_arguments": [
+        { "type": "positional", "value": "mcp" }
+      ],
       "transport": {
         "type": "stdio"
-      },
-      "environment_variables": [
-        {
-          "description": "Your API key for the service",
-          "is_required": true,
-          "format": "string",
-          "is_secret": true,
-          "name": "YOUR_API_KEY"
-        }
-      ]
+      }
     }
   ]
 }

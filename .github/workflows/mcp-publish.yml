@@ -1,0 +1,54 @@
+name: Publish to MCP Registry
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # for github-oidc auth to the registry
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync server.json version to the release tag
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          if [ -n "$tag" ] && [ "$tag" != "$GITHUB_REF_NAME" ]; then
+            python - "$tag" <<'PY'
+import json, sys
+tag = sys.argv[1]
+s = json.load(open("server.json"))
+s["version"] = tag
+for p in s.get("packages", []):
+    p["version"] = tag
+json.dump(s, open("server.json", "w"), indent=2)
+open("server.json", "a").write("\n")
+PY
+          fi
+          cat server.json
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/download/v1.0.0/mcp-publisher_1.0.0_linux_amd64.tar.gz" \
+            | tar xz mcp-publisher
+          sudo mv mcp-publisher /usr/local/bin/
+
+      - name: Wait for the PyPI release to be installable
+        run: |
+          v="${GITHUB_REF_NAME#v}"
+          for i in $(seq 1 30); do
+            if curl -sf "https://pypi.org/pypi/x402lint/${v}/json" >/dev/null; then
+              echo "x402lint ${v} is on PyPI"; exit 0
+            fi
+            echo "waiting for x402lint ${v} on PyPI ($i)"; sleep 10
+          done
+          echo "timed out waiting for PyPI"; exit 1
+
+      - name: Publish
+        run: |
+          mcp-publisher login github-oidc
+          mcp-publisher publish
