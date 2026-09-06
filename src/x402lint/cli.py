@@ -474,11 +474,16 @@ def _roundtrip_via_facilitator(args: argparse.Namespace, entry, prepared) -> int
 def cmd_mcp(args: argparse.Namespace) -> int:
     try:
         from .mcp_server import main as mcp_main
-    except SystemExit as e:  # missing 'mcp' extra
-        print(str(e), file=sys.stderr)
+    except ImportError as e:  # missing 'mcp' extra
+        print(f"error: {e}", file=sys.stderr)
         return 2
     mcp_main()
     return 0
+
+
+def mcp_entry() -> None:
+    """Console-script entry point for `x402lint-mcp`."""
+    raise SystemExit(cmd_mcp(argparse.Namespace()))
 
 
 def build_parser() -> argparse.ArgumentParser:

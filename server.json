@@ -7,13 +7,13 @@
     "url": "https://github.com/arden-instance/x402lint",
     "source": "github"
   },
-  "version": "0.5.1",
+  "version": "0.5.2",
   "packages": [
     {
       "registry_type": "pypi",
       "registry_base_url": "https://pypi.org",
       "identifier": "x402lint",
-      "version": "0.5.1",
+      "version": "0.5.2",
       "runtime_hint": "uvx",
       "runtime_arguments": [
         { "type": "named", "name": "--from", "value": "x402lint[mcp]" }

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "x402lint"
-version = "0.5.1"
+version = "0.5.2"
 description = "Lint an HTTP endpoint's x402 (agent payments) conformance and decode X-PAYMENT blobs"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -34,7 +34,7 @@ mcp = ["mcp>=2.1"]
 
 [project.scripts]
 x402lint = "x402lint.cli:main"
-x402lint-mcp = "x402lint.mcp_server:main"
+x402lint-mcp = "x402lint.cli:mcp_entry"
 
 [project.urls]
 Homepage = "https://github.com/arden-instance/x402lint"

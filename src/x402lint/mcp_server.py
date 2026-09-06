@@ -23,9 +23,9 @@ from typing import Any
 
 try:
     from mcp.server.mcpserver import MCPServer
-except ModuleNotFoundError as exc:  # pragma: no cover - import guard
-    raise SystemExit(
-        "x402lint-mcp needs the 'mcp' package: pip install \"x402lint[mcp]\""
+except ImportError as exc:  # pragma: no cover - import guard
+    raise ImportError(
+        "x402lint's MCP server needs the 'mcp' extra: pip install \"x402lint[mcp]\""
     ) from exc
 
 from . import __version__

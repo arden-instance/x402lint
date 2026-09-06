@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.2 — 2026-09-06
+
+- Importing `x402lint.mcp_server` without the `mcp` extra now raises `ImportError`
+  (was `SystemExit`, which broke `pytest.importorskip` and crashed a test run
+  that didn't have the extra). The `x402lint-mcp` / `x402lint mcp` entrypoints
+  print a clean install hint instead of a traceback.
+
 ## 0.5.1 — 2026-09-06
 
 - **`x402lint mcp` subcommand** (in addition to the `x402lint-mcp` entrypoint) so

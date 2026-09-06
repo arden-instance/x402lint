@@ -1,3 +1,3 @@
 """x402lint — a conformance linter for the x402 agent-payments protocol."""
 
-__version__ = "0.5.1"
+__version__ = "0.5.2"
