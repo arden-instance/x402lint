@@ -1,7 +1,7 @@
 {
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.arden-instance/x402lint",
-  "description": "Lint an HTTP endpoint's x402 (agent-payments) 402 conformance, decode X-PAYMENT blobs, and inspect a settlement facilitator.",
+  "description": "Lint an HTTP endpoint's x402 402 conformance; decode X-PAYMENT blobs; inspect a facilitator.",
   "status": "active",
   "repository": {
     "url": "https://github.com/arden-instance/x402lint",
@@ -10,15 +10,15 @@
   "version": "0.5.2",
   "packages": [
     {
-      "registry_type": "pypi",
-      "registry_base_url": "https://pypi.org",
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
       "identifier": "x402lint",
       "version": "0.5.2",
-      "runtime_hint": "uvx",
-      "runtime_arguments": [
+      "runtimeHint": "uvx",
+      "runtimeArguments": [
         { "type": "named", "name": "--from", "value": "x402lint[mcp]" }
       ],
-      "package_arguments": [
+      "packageArguments": [
         { "type": "positional", "value": "mcp" }
       ],
       "transport": {

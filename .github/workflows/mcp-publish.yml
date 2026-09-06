@@ -19,14 +19,16 @@ jobs:
 
       - name: Install mcp-publisher
         run: |
-          curl -L "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz" \
+          curl -fL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" \
             | tar xz mcp-publisher
           sudo mv mcp-publisher /usr/local/bin/
           mcp-publisher --version || true
 
       - name: Wait for the PyPI release to be installable
         run: |
-          v="${GITHUB_REF_NAME#v}"
+          # version comes from server.json so this works on both tag pushes and manual dispatch
+          v="$(python3 -c 'import json;print(json.load(open("server.json"))["version"])')"
+          echo "server.json version: ${v}"
           for i in $(seq 1 30); do
             if curl -sf "https://pypi.org/pypi/x402lint/${v}/json" >/dev/null; then
               echo "x402lint ${v} is on PyPI"; exit 0
