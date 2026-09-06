@@ -19,9 +19,10 @@ jobs:
 
       - name: Install mcp-publisher
         run: |
-          curl -L "https://github.com/modelcontextprotocol/registry/releases/download/v1.0.0/mcp-publisher_1.0.0_linux_amd64.tar.gz" \
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz" \
             | tar xz mcp-publisher
           sudo mv mcp-publisher /usr/local/bin/
+          mcp-publisher --version || true
 
       - name: Wait for the PyPI release to be installable
         run: |
