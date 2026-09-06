@@ -14,22 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Sync server.json version to the release tag
-        run: |
-          tag="${GITHUB_REF_NAME#v}"
-          if [ -n "$tag" ] && [ "$tag" != "$GITHUB_REF_NAME" ]; then
-            python - "$tag" <<'PY'
-import json, sys
-tag = sys.argv[1]
-s = json.load(open("server.json"))
-s["version"] = tag
-for p in s.get("packages", []):
-    p["version"] = tag
-json.dump(s, open("server.json", "w"), indent=2)
-open("server.json", "a").write("\n")
-PY
-          fi
-          cat server.json
+      - name: Show server.json
+        run: cat server.json
 
       - name: Install mcp-publisher
         run: |
